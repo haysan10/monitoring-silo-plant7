@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#0e131a"/>
+  <rect x="2" y="2" width="60" height="60" rx="12" fill="#161d27" stroke="#2a3441" stroke-width="2"/>
+  <rect x="18" y="8" width="28" height="10" rx="3" fill="#c2410c"/>
+  <text x="32" y="16" fill="#ffffff" font-family="system-ui, sans-serif" font-size="7" font-weight="900" text-anchor="middle">PLANT 7</text>
+  <!-- Silo 7.1 -->
+  <rect x="10" y="24" width="12" height="30" rx="2" fill="#0a0e14" stroke="#4b5563" stroke-width="1.5"/>
+  <path d="M10 24 L16 20 L22 24 Z" fill="#374151" stroke="#4b5563" stroke-width="1"/>
+  <rect x="11" y="34" width="10" height="19" fill="#0f766e"/>
+  <!-- Silo 8.1 -->
+  <rect x="26" y="24" width="12" height="30" rx="2" fill="#0a0e14" stroke="#4b5563" stroke-width="1.5"/>
+  <path d="M26 24 L32 20 L38 24 Z" fill="#374151" stroke="#4b5563" stroke-width="1"/>
+  <rect x="27" y="40" width="10" height="13" fill="#b45309"/>
+  <!-- Silo 8.2 -->
+  <rect x="42" y="24" width="12" height="30" rx="2" fill="#0a0e14" stroke="#4b5563" stroke-width="1.5"/>
+  <path d="M42 24 L48 20 L54 24 Z" fill="#374151" stroke="#4b5563" stroke-width="1"/>
+  <rect x="43" y="30" width="10" height="23" fill="#6d28d9"/>
+</svg>

@@ -1,0 +1,31 @@
+{
+  "name": "Monitoring Silo Clinker PLANT 7",
+  "short_name": "Silo Plant 7",
+  "description": "Sistem Monitoring Stok Clinker Silo 7.1, 8.1, 8.2 Tuban Plant 7",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0e131a",
+  "theme_color": "#c2410c",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "categories": ["productivity", "business", "utilities"]
+}
