@@ -1,7 +1,7 @@
 {
-  "name": "Monitoring Silo Clinker PLANT 7",
-  "short_name": "Silo Plant 7",
-  "description": "Sistem Monitoring Stok Clinker Silo 7.1, 8.1, 8.2 Tuban Plant 7",
+  "name": "Monitoring Silo Clinker PLANT 78",
+  "short_name": "Silo Plant 78",
+  "description": "Sistem Monitoring Stok Clinker Silo 7.1, 8.1, 8.2 Plant 78",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

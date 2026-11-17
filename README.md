@@ -1,6 +1,6 @@
-# Monitoring Silo Clinker · PLANT 7
+# Monitoring Silo Clinker · PLANT 78
 
-Aplikasi **Progressive Web App (PWA)** mobile-first industrial grade untuk monitoring stok clinker di Silo 7.1, 8.1, dan 8.2 (**PLANT 7**).
+Aplikasi **Progressive Web App (PWA)** mobile-first industrial grade untuk monitoring stok clinker di Silo 7.1, 8.1, dan 8.2 (**PLANT 78**).
 
 ![PWA Ready](https://img.shields.io/badge/PWA-Ready-orange?style=flat-square)
 ![GSAP Powered](https://img.shields.io/badge/Animation-GSAP%203-green?style=flat-square)
@@ -12,7 +12,7 @@ Aplikasi **Progressive Web App (PWA)** mobile-first industrial grade untuk monit
 ## ✨ Fitur Utama
 1. **Cinematic Industrial Splash Screen (GSAP 3)**:
    - Animasi vektor 3 Silo clinker, balok pengisian clinker molten, dan laser sensor piezo-ultrasonik.
-   - Tipografi kinetik Plant 7 Tuban dengan progress ticker diagnostik.
+   - Tipografi kinetik Plant 78 dengan progress ticker diagnostik.
    - Dapat di-skip seketika dengan ketukan layar dan diulang via tombol `⚡`.
 2. **Multi-Granularitas Monitoring**:
    - **⏱️ Setiap Shift**: Real-time shift terakhir (C, A, B), level meter, stok aktual (ton), dan selisih ton vs shift sebelumnya.
@@ -36,7 +36,7 @@ Aplikasi **Progressive Web App (PWA)** mobile-first industrial grade untuk monit
    ```bash
    git init
    git add .
-   git commit -m "feat: PWA Silo Clinker Plant 7 with GSAP Splash Screen"
+   git commit -m "feat: PWA Silo Clinker Plant 78 with GSAP Splash Screen"
    git branch -M main
    git remote add origin https://github.com/<username>/<repo-name>.git
    git push -u origin main
@@ -56,8 +56,8 @@ Aplikasi **Progressive Web App (PWA)** mobile-first industrial grade untuk monit
 - `manifest.webmanifest` / `manifest.json` : Konfigurasi instalasi PWA.
 - `sw.js` : Service Worker untuk caching aset dan offline capability.
 - `Code.gs` : Script backend Google Apps Script (penyedia API `doGet`/`doPost` dan pembentuk sheet `Rekap Silo 2026`).
-- `icon-192.png`, `icon-512.png`, `favicon.svg` : Ikon industrial resmi Silo Plant 7.
+- `icon-192.png`, `icon-512.png`, `favicon.svg` : Ikon industrial resmi Silo Plant 78.
 - `Silo clinker 16C.xlsx` : Data acuan asli master pabrik.
 
 ---
-© 2026 PLANT 7 · Unit Operasi & Kendali Mutu Silo Clinker Tuban.
+© 2026 PLANT 78 · Unit Operasi & Kendali Mutu Silo Clinker Plant 78.

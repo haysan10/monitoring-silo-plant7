@@ -6,8 +6,8 @@
 <meta name="theme-color" content="#0e131a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Silo Plant 7">
-<meta name="description" content="Sistem Monitoring Stok Clinker Silo 7.1, 8.1, 8.2 Tuban Plant 7">
+<meta name="apple-mobile-web-app-title" content="Silo Plant 78">
+<meta name="description" content="Sistem Monitoring Stok Clinker Silo 7.1, 8.1, 8.2 Plant 78">
 
 <!-- PWA Links -->
 <link rel="manifest" href="manifest.webmanifest">
@@ -15,7 +15,7 @@
 <link rel="alternate icon" href="favicon.ico">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-<title>Monitoring Clinker Silo · PLANT 7</title>
+<title>Monitoring Clinker Silo · PLANT 78</title>
 
 <!-- GSAP for Award-Level Cinematic Splash & Micro-interactions -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -240,12 +240,12 @@ svg text{fill:var(--mut);font-size:11px}
 <body>
 
 <!-- CINEMATIC INDUSTRIAL SPLASH SCREEN -->
-<div id="splash-screen" role="dialog" aria-label="Memuat Sistem Monitoring Plant 7">
+<div id="splash-screen" role="dialog" aria-label="Memuat Sistem Monitoring Plant 78">
   <div class="splash-bg-glow"></div>
   <div class="splash-grid-lines"></div>
   
   <div class="splash-content">
-    <div class="splash-badge">PLANT 7 · TUBAN</div>
+    <div class="splash-badge">PLANT 78</div>
 
     <!-- 3 SILOS VECTOR ARTWORK -->
     <div class="splash-svg-container">
@@ -305,8 +305,8 @@ svg text{fill:var(--mut);font-size:11px}
 <header>
   <div class="bar">
     <div class="brand">
-      <span class="badge-plant">PLANT 7</span>
-      <h1>Monitoring Clinker Silo<small>Silo 7.1 · 8.1 · 8.2 · Tuban</small></h1>
+      <span class="badge-plant">PLANT 78</span>
+      <h1>Monitoring Clinker Silo<small>Silo 7.1 · 8.1 · 8.2 · Plant 78</small></h1>
     </div>
     <nav id="nav">
       <button data-p="dash">Dasbor</button>
@@ -407,7 +407,7 @@ function runSplashAnimation() {
     .fromTo('.splash-title', { opacity: 0, scale: 0.92, letterSpacing: '8px' }, { opacity: 1, scale: 1, letterSpacing: '3px', duration: 0.6, ease: 'expo.out' }, '-=0.4')
     .fromTo('.splash-subtitle', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 }, '-=0.3')
     .to('#sp-progress', { width: '40%', duration: 0.4, ease: 'none', onStart: () => { $('#sp-ticker').textContent = 'CALIBRATING SENSORS...'; } })
-    .to('#sp-progress', { width: '80%', duration: 0.5, ease: 'none', onStart: () => { $('#sp-ticker').textContent = 'SYNCING PLANT 7 DATA...'; } })
+    .to('#sp-progress', { width: '80%', duration: 0.5, ease: 'none', onStart: () => { $('#sp-ticker').textContent = 'SYNCING PLANT 78 DATA...'; } })
     .to('#sp-progress', { width: '100%', duration: 0.3, ease: 'none', onStart: () => { $('#sp-ticker').textContent = 'SYSTEM OPERATIONAL · READY'; } });
 }
 
@@ -677,7 +677,7 @@ function dash() {
 
     <div class="card kpi">
       <div>
-        <span class="mut">Total Stok Clinker (Plant 7)</span><br>
+        <span class="mut">Total Stok Clinker (Plant 78)</span><br>
         <b style="color:var(--acc);">${f0(tot)} ton</b>
       </div>
       <div>
@@ -758,7 +758,7 @@ function inp() {
 
     <p class="note">
       Masukkan jarak (meter) dari atas silo ke permukaan clinker pada masing-masing titik ukur (I–VI). 
-      Hasil Meter Real, Meter Adjust, Pembulatan 0,25 m, dan Ton Stok dihitung otomatis memakai rumus kalibrasi aktif PLANT 7.
+      Hasil Meter Real, Meter Adjust, Pembulatan 0,25 m, dan Ton Stok dihitung otomatis memakai rumus kalibrasi aktif PLANT 78.
     </p>
 
     <div class="grid">${sc}</div>
@@ -1062,7 +1062,7 @@ function expCSV() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `Rekap_Silo_Plant7_${today()}.csv`;
+  a.download = `Rekap_Silo_Plant78_${today()}.csv`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -1152,11 +1152,11 @@ function cal() {
 
     <div class="row" style="margin:14px 0">
       <button class="btn pri" onclick="saveCal()">💾 Simpan Parameter Kalibrasi</button>
-      <button class="btn" onclick="twice(this, resetCal)">Kembalikan ke Default Plant 7</button>
+      <button class="btn" onclick="twice(this, resetCal)">Kembalikan ke Default Plant 78</button>
     </div>
 
     <div class="card note">
-      <h2>Prinsip Perhitungan Kalibrasi Clinker PLANT 7</h2>
+      <h2>Prinsip Perhitungan Kalibrasi Clinker PLANT 78</h2>
       1. <b>Meter Real</b> = Σ(Bobot × Titik Ukur) ÷ n.<br>
       2. <b>Meter Adjust</b> = Meter Real × Faktor (Faktor “> batas” bila meter real > batas, selain itu Faktor “≤ batas”).<br>
       3. <b>Dibulatkan</b> ke kelipatan 0,25 m terdekat, lalu dicari pada master tabel kapasitas clinker (0 s.d. 45,75 m; kapasitas maksimum <b>${f0(CAP)} ton</b>).<br>
@@ -1193,7 +1193,7 @@ function resetCal() {
   if (typeof google !== 'undefined' && google.script && google.script.run) {
     google.script.run.resetKalibrasi();
   }
-  toast('Kalibrasi dikembalikan ke standar Plant 7');
+  toast('Kalibrasi dikembalikan ke standar Plant 78');
   render();
 }
 

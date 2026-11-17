@@ -1,5 +1,5 @@
 /**
- * MONITORING SILO CLINKER PLANT 7
+ * MONITORING SILO CLINKER PLANT 78
  * Container-bound Google Apps Script
  * Runtime: V8
  * 
@@ -9,8 +9,8 @@
  * - Sheet "KALIBRASI": Parameter bobot, n, batas, faktor kalibrasi aktif
  */
 
-const NAMA_PERUSAHAAN = 'PLANT 7';
-const UNIT_PABRIK = 'PLANT 7 · UNIT OPERASI & KENDALI MUTU SILO CLINKER';
+const NAMA_PERUSAHAAN = 'PLANT 78';
+const UNIT_PABRIK = 'PLANT 78 · UNIT OPERASI & KENDALI MUTU SILO CLINKER';
 const SILO_HEIGHT = 45.25;
 const SILO_CAPACITY_MAX = 50286.4;
 
@@ -66,7 +66,7 @@ function doGet(e) {
 
   // Normal browser web app visit
   return HtmlService.createHtmlOutputFromFile('index')
-    .setTitle('PLANT 7 · Monitoring Silo Clinker')
+    .setTitle('PLANT 78 · Monitoring Silo Clinker')
     .addMetaTag('viewport', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover')
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
@@ -94,7 +94,7 @@ function doPost(e) {
 
 function onOpen() {
   SpreadsheetApp.getUi()
-    .createMenu('Silo Clinker Plant 7')
+    .createMenu('Silo Clinker Plant 78')
     .addItem('⚙️ Setup Database (Struktur Excel Silo 16C)', 'menuSetup')
     .addItem('🧪 Uji Akseptasi Sistem', 'menuUji')
     .addToUi();
@@ -107,7 +107,7 @@ function menuSetup() {
 
 function menuUji() {
   const res = ujiAkseptasi();
-  SpreadsheetApp.getUi().alert('Hasil Uji Akseptasi Plant 7:\n\n' + res.log);
+  SpreadsheetApp.getUi().alert('Hasil Uji Akseptasi Plant 78:\n\n' + res.log);
 }
 
 /**
@@ -136,7 +136,7 @@ function setup() {
       capSheet.setFrozenRows(1);
     }
 
-    // 2. Sheet KALIBRASI (default Plant 7)
+    // 2. Sheet KALIBRASI (default Plant 78)
     let calSheet = ss.getSheetByName(SHEET_NAMES.KALIBRASI);
     if (!calSheet) {
       calSheet = ss.insertSheet(SHEET_NAMES.KALIBRASI);
@@ -196,7 +196,7 @@ function setup() {
 
     return {
       ok: true,
-      message: 'Setup Database Plant 7 Selesai.\nSheet "Rekap Silo 2026" (37 kolom), "KAPASITAS", dan "KALIBRASI" telah aktif dan siap mencatat shift baru.'
+      message: 'Setup Database Plant 78 Selesai.\nSheet "Rekap Silo 2026" (37 kolom), "KAPASITAS", dan "KALIBRASI" telah aktif dan siap mencatat shift baru.'
     };
   } catch (err) {
     return { ok: false, error: err.message };
