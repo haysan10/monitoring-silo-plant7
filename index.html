@@ -955,40 +955,75 @@ function getShiftSchedule(now = new Date()) {
   }
 }
 
-// Check 8-hour editable window for non-admin
+// Strict Shift-based form access controller (Buka & Tutup tepat waktu shift)
 function checkShiftWindow(dateStr, shiftStr, now = new Date()) {
   if (adminState.isAdmin) {
-    return { isAllowed: true, reason: 'Mode Admin: Bebas ubah data kapan saja' };
+    return {
+      isAllowed: true,
+      status: 'admin',
+      label: 'Mode Administrator',
+      shiftLabel: 'Semua Shift',
+      reason: 'Akses Administrator aktif: Bebas mengisi atau merevisi data kapan saja.'
+    };
   }
 
   const [y, m, d] = dateStr.split('-').map(Number);
-  let startTime, endTime;
+  let startTime, endTime, shiftLabel;
 
   if (shiftStr === 'A') {
     startTime = new Date(y, m - 1, d, 7, 0, 0);
     endTime = new Date(y, m - 1, d, 15, 0, 0);
+    shiftLabel = 'Shift A (07:00 – 15:00)';
   } else if (shiftStr === 'B') {
-    startTime = new Date(y, m - 1, d, 15, 1, 0);
+    startTime = new Date(y, m - 1, d, 15, 0, 1);
     endTime = new Date(y, m - 1, d, 23, 0, 0);
+    shiftLabel = 'Shift B (15:01 – 23:00)';
   } else if (shiftStr === 'C') {
-    // Shift C ended at 07:00 on dateStr, started at 23:01 yesterday
-    startTime = new Date(y, m - 1, d - 1, 23, 1, 0);
     endTime = new Date(y, m - 1, d, 7, 0, 0);
+    startTime = new Date(endTime.getTime() - (8 * 3600 * 1000 - 1000));
+    shiftLabel = 'Shift C (23:01 – 07:00)';
   }
 
   const nowMs = now.getTime();
-  // 30-minute grace period after shift handover
-  const graceMs = 30 * 60 * 1000;
-  const isAllowed = (nowMs >= startTime.getTime()) && (nowMs <= (endTime.getTime() + graceMs));
+  const startMs = startTime.getTime();
+  const endMs = endTime.getTime();
+
+  if (nowMs < startMs) {
+    return {
+      isAllowed: false,
+      status: 'upcoming',
+      label: 'Belum Dibuka',
+      shiftLabel,
+      reason: `Waktu saat ini belum memasuki ${shiftLabel}. Form hanya terbuka saat jam shift berlangsung.`
+    };
+  }
+
+  if (nowMs > endMs) {
+    return {
+      isAllowed: false,
+      status: 'closed',
+      label: 'Telah Ditutup',
+      shiftLabel,
+      reason: `Jam kerja ${shiftLabel} telah berakhir. Form tertutup otomatis untuk mencegah perubahan data tanpa pengukuran nyata.`
+    };
+  }
 
   return {
-    isAllowed,
-    startTime,
-    endTime,
-    reason: isAllowed 
-      ? 'Dalam durasi 8 jam shift berjalan' 
-      : 'Shift telah berakhir (> 8 jam). Hanya Admin yang dapat merevisi data.'
+    isAllowed: true,
+    status: 'open',
+    label: 'Form Terbuka',
+    shiftLabel,
+    reason: `${shiftLabel} sedang berlangsung aktif.`
   };
+}
+
+function resetToCurrentShift() {
+  const cur = getShiftSchedule();
+  IN.d = cur.date;
+  IN.s = cur.shift;
+  loadIN();
+  render();
+  toast('Membuka shift aktif: Shift ' + cur.shift + ' (' + fd(cur.date) + ')');
 }
 
 // Application State
@@ -1396,7 +1431,7 @@ function inp() {
       <div class="card" style="--c:var(--s${i})">
         <div class="hd">
           <b>Silo ${id}</b>
-          
+          ${isAllowed ? '' : '<span class="tag bad" style="font-size:10px;">🔒 Terkunci</span>'}
         </div>
         <div class="pts">
           ${RM.map((r, k) => `
@@ -1418,11 +1453,17 @@ function inp() {
     ${!isAllowed ? `
       <div class="lock-banner">
         <div class="lock-banner-text">
-          <b>🔒 Shift Terkunci (> 8 Jam)</b>
+          <b>🔒 Form Tertutup · ${win.label} (${win.shiftLabel})</b>
+          <span>${win.reason}</span>
         </div>
-        <button class="btn bad sm" onclick="openReportModal()">
-          📢 Lapor Salah Input
-        </button>
+        <div class="row" style="gap:8px; margin-top:6px;">
+          <button class="btn pri sm" onclick="resetToCurrentShift()">
+            ⏱️ Buka Shift Aktif Saat Ini
+          </button>
+          <button class="btn bad sm" onclick="openReportModal()">
+            📢 Lapor Koreksi ke Admin
+          </button>
+        </div>
       </div>
     ` : ''}
 
@@ -1443,15 +1484,14 @@ function inp() {
           placeholder="7 digit NIK" value="${IN.nik}" ${isAllowed ? '' : 'disabled'}
           style="font-weight:600; letter-spacing:1px; width:130px;">
       </label>
+      <span class="tag ${isAllowed ? 'ok' : 'bad'}">
+        ${isAllowed ? '🟢 Form Terbuka' : '🔴 Form Tertutup'}
+      </span>
       <span class="tag ${ex ? 'warn' : 'ok'}">
-        ${ex ? '✏️ Edit' : '✨ Baru'}
+        ${ex ? '✏️ Edit Isian' : '✨ Isian Baru'}
       </span>
       ${isCustomCal ? '<span class="tag warn">🎯 Kalibrasi Khusus</span>' : ''}
-      <span class="sp"></span>
-      <button class="btn" onclick="quickFillPrev()" ${isAllowed ? '' : 'disabled'}>↻ Salin Shift Lalu</button>
     </div>
-
-
 
     <div class="grid">${sc}</div>
 
@@ -1489,18 +1529,6 @@ function upd(id) {
     <div><span>Dibulatkan</span><b>${f2(c.k)}</b></div>
     <div><span>Stok (ton)</span><b style="color:var(--acc);">${f0(c.t)}</b></div>
   `;
-}
-
-function quickFillPrev() {
-  const R = srt();
-  const L = R[R.length - 1];
-  if (!L) return toast('Tidak ada catatan sebelumnya', 1);
-  IN.x = {};
-  SI.forEach(id => {
-    if (L.v[id]) IN.x[id] = L.v[id].x.slice();
-  });
-  render();
-  toast('Titik ukur diisi dari ' + fd(L.d) + ' Shift ' + L.s);
 }
 
 function saveIn() {
@@ -2211,7 +2239,14 @@ function go(p) {
     return;
   }
   pg = p;
-  if (p === 'input') loadIN();
+  if (p === 'input') {
+    if (!adminState.isAdmin) {
+      const cur = getShiftSchedule();
+      IN.d = cur.date;
+      IN.s = cur.shift;
+    }
+    loadIN();
+  }
   render();
   window.scrollTo(0, 0);
 }
