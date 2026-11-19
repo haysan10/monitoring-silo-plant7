@@ -1,4 +1,4 @@
-const CACHE_NAME = 'silo-plant7-v1.0.0';
+const CACHE_NAME = 'silo-plant78-v1.2.0';
 const STATIC_ASSETS = [
   './',
   './index.html',
@@ -6,6 +6,8 @@ const STATIC_ASSETS = [
   './manifest.json',
   './favicon.svg',
   './favicon.ico',
+  './logo.png',
+  './logo-dark.png',
   './icon-192.png',
   './icon-512.png',
   './apple-touch-icon.png',
