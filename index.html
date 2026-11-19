@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
-<meta name="theme-color" content="#0e131a">
+<meta name="theme-color" content="#ffffff">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Silo Plant 78">
 <meta name="description" content="Sistem Monitoring Stok Clinker Silo 7.1, 8.1, 8.2 Plant 78">
 
@@ -17,41 +17,68 @@
 
 <title>Monitoring Clinker Silo · PLANT 78</title>
 
-<!-- GSAP for Award-Level Cinematic Splash & Micro-interactions -->
+<!-- GSAP for Cinematic Splash & Smooth Transitions -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <!-- SheetJS for Offline Excel Import -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 <style>
-:root{
-  --bg:#f3f4f6;--card:#fff;--ink:#18212c;--mut:#5b6877;--line:#dde2e8;
-  --acc:#c2410c;--acc-glow:rgba(194,65,12,0.3);--s0:#0f766e;--s1:#b45309;--s2:#6d28d9;--bad:#b91c1c;--ok:#15803d;
-  color-scheme:light;box-sizing:border-box;
-  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)
+/* LIGHT THEME (DEFAULT) */
+:root {
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --ink: #0f172a;
+  --mut: #64748b;
+  --line: #e2e8f0;
+  --acc: #c2410c;
+  --acc-glow: rgba(194, 65, 12, 0.25);
+  --s0: #0f766e;
+  --s1: #b45309;
+  --s2: #6d28d9;
+  --bad: #dc2626;
+  --ok: #16a34a;
+  color-scheme: light;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
-@media(prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --bg:#0e131a;--card:#161d27;--ink:#e6eaf0;--mut:#93a0b1;--line:#2a3441;
-    --acc:#fb923c;--acc-glow:rgba(251,146,60,0.3);--s0:#2dd4bf;--s1:#fbbf24;--s2:#a78bfa;--bad:#f87171;--ok:#4ade80;
-    color-scheme:dark
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#0e131a;--card:#161d27;--ink:#e6eaf0;--mut:#93a0b1;--line:#2a3441;
-  --acc:#fb923c;--acc-glow:rgba(251,146,60,0.3);--s0:#2dd4bf;--s1:#fbbf24;--s2:#a78bfa;--bad:#f87171;--ok:#4ade80;
-  color-scheme:dark
-}
-:root[data-theme="light"]{
-  --bg:#f3f4f6;--card:#fff;--ink:#18212c;--mut:#5b6877;--line:#dde2e8;
-  --acc:#c2410c;--acc-glow:rgba(194,65,12,0.3);--s0:#0f766e;--s1:#b45309;--s2:#6d28d9;--bad:#b91c1c;--ok:#15803d;
-  color-scheme:light
-}
-*,*::before,*::after{box-sizing:inherit}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-tap-highlight-color:transparent}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--card)}
 
-/* SPLASH SCREEN CINEMATIC OVERLAY */
+/* DARK THEME (ONLY WHEN EXPLICITLY SET) */
+:root[data-theme="dark"] {
+  --bg: #0e131a;
+  --card: #161d27;
+  --ink: #e6eaf0;
+  --mut: #93a0b1;
+  --line: #2a3441;
+  --acc: #fb923c;
+  --acc-glow: rgba(251, 146, 60, 0.3);
+  --s0: #2dd4bf;
+  --s1: #fbbf24;
+  --s2: #a78bfa;
+  --bad: #f87171;
+  --ok: #4ade80;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: inherit; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 14px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 10;
+  background: var(--card);
+}
+
+/* CINEMATIC SPLASH SCREEN */
 #splash-screen {
   position: fixed;
   inset: 0;
@@ -71,7 +98,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   width: 600px;
   height: 600px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(194,65,12,0.18) 0%, rgba(15,118,110,0.12) 40%, rgba(8,12,18,0) 70%);
+  background: radial-gradient(circle, rgba(194,65,12,0.2) 0%, rgba(15,118,110,0.12) 40%, rgba(8,12,18,0) 70%);
   pointer-events: none;
 }
 .splash-grid-lines {
@@ -157,83 +184,420 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 }
 
 /* APP SHELL */
-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--card);border-bottom:1px solid var(--line)}
-.bar,main{max-width:1100px;margin:auto;padding:12px 16px}
-.bar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:space-between}
-.brand{display:flex;align-items:center;gap:10px}
-.badge-plant{background:var(--acc);color:#fff;font-size:11px;font-weight:800;letter-spacing:1px;padding:3px 7px;border-radius:5px}
-h1{font-size:16px;margin:0;line-height:1.25}
-h1 small{display:block;font-weight:400;color:var(--mut);font-size:12px}
-h2{font-size:15px;margin:0 0 8px}
-nav{display:flex;gap:4px;overflow-x:auto;align-items:center;max-width:100%}
-nav button{font:inherit;border:0;background:none;color:var(--mut);padding:7px 12px;border-radius:7px;cursor:pointer;white-space:nowrap;transition:all .15s}
-nav button.on{background:var(--acc);color:#fff;font-weight:600}
-nav button:hover:not(.on){background:rgba(128,128,128,0.1)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,0.02)}
-.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(270px,1fr))}
-.grid .card{margin:0}
-.hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.hd b{border-left:4px solid var(--c);padding-left:8px;font-size:15px}
-.mid{display:flex;gap:14px;align-items:center}
-.tank{width:36px;height:90px;border:2px solid var(--line);border-radius:6px 6px 12px 12px;position:relative;overflow:hidden;background:var(--bg);flex:none}
-.tank i{position:absolute;left:0;right:0;bottom:0;background:var(--c);opacity:.85;transition:height .4s ease}
-.big{font-size:27px;font-weight:700;line-height:1.1;letter-spacing:-0.5px}
-.big small{font-size:13px;font-weight:400;color:var(--mut)}
-.mut{color:var(--mut);font-size:13px}
-.tag{font-size:11px;padding:2px 7px;border-radius:99px;border:1px solid currentColor;font-weight:600}
-.tag.ok{color:var(--ok)}
-.tag.warn{color:var(--s1)}
-.tag.bad{color:var(--bad)}
-.kpi{display:flex;gap:24px;flex-wrap:wrap;align-items:baseline}
-.kpi b{font-size:22px;letter-spacing:-0.5px}
-.row,.tool{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
-.sp{flex:1}
-.tool label,.pts label{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--mut)}
-.btn{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:7px 14px;border-radius:7px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .15s}
-.btn:hover{border-color:var(--mut)}
-.btn.pri{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
-.btn.bad{color:var(--bad)}
-.btn.bad:hover{border-color:var(--bad)}
-input,select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:7px 9px;width:100%;min-width:0;transition:border-color .15s}
-.tool input,.tool select{width:auto}
-input:focus,select:focus,button:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
-.pts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px}
-.pts .off input{opacity:.45}
-.out{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;border-top:1px solid var(--line);padding-top:8px;font-size:13px}
-.out div{display:flex;justify-content:space-between}
-.out b{font-variant-numeric:tabular-nums}
-.tw{overflow-x:auto;padding:0}
-table{border-collapse:collapse;width:100%;font-size:13px;font-variant-numeric:tabular-nums}
-th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
-th{color:var(--mut);font-weight:600;text-align:center;background:var(--bg)}
-td.n{text-align:right}
-.act{text-align:right}
-.lnk{font:inherit;font-size:13px;border:0;background:none;color:var(--acc);cursor:pointer;padding:2px 6px}
-.lnk.bad{color:var(--bad)}
-.lnk:hover{text-decoration:underline}
-.rg{display:inline-flex;gap:3px;background:var(--bg);padding:3px;border-radius:8px;border:1px solid var(--line)}
-.rg .btn{padding:4px 10px;font-size:12px;border:0;background:none;border-radius:5px;font-weight:500}
-.rg .on{background:var(--acc);color:#fff;font-weight:600}
-.lg{display:flex;gap:14px;font-size:13px;margin-top:8px;flex-wrap:wrap}
-.lg i{display:inline-block;width:12px;height:3px;background:var(--c);margin-right:5px;vertical-align:middle;border-radius:2px}
-svg{width:100%;height:auto;display:block}
-svg text{fill:var(--mut);font-size:11px}
-.note{font-size:13px;color:var(--mut);line-height:1.6}
-.empty{text-align:center;padding:36px 16px}
-.empty .row{justify-content:center}
-#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--card);padding:9px 16px;border-radius:8px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:20;max-width:90vw;box-shadow:0 4px 12px rgba(0,0,0,0.15)}
-#toast.show{opacity:1}
-#toast.err{background:var(--bad);color:#fff}
-.cloud-pill{font-size:11px;padding:3px 8px;border-radius:99px;display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:var(--bg)}
-.cloud-dot{width:7px;height:7px;border-radius:50%;background:var(--ok)}
-.cloud-dot.off{background:var(--mut)}
+header {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 9;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+.bar, main {
+  max-width: 1100px;
+  margin: auto;
+  padding: 10px 16px;
+}
+.bar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.badge-plant {
+  background: var(--acc);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 3px 7px;
+  border-radius: 5px;
+}
+h1 {
+  font-size: 16px;
+  margin: 0;
+  line-height: 1.25;
+}
+h1 small {
+  display: block;
+  font-weight: 400;
+  color: var(--mut);
+  font-size: 12px;
+}
+h2 {
+  font-size: 15px;
+  margin: 0 0 8px;
+}
+nav {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  align-items: center;
+  max-width: 100%;
+}
+nav button {
+  font: inherit;
+  border: 0;
+  background: none;
+  color: var(--mut);
+  padding: 7px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all .15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+nav button.on {
+  background: var(--acc);
+  color: #fff;
+  font-weight: 600;
+}
+nav button:hover:not(.on) {
+  background: rgba(128,128,128,0.1);
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+.grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+}
+.grid .card { margin: 0; }
+.hd {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.hd b {
+  border-left: 4px solid var(--c);
+  padding-left: 8px;
+  font-size: 15px;
+}
+.mid {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.tank {
+  width: 36px;
+  height: 90px;
+  border: 2px solid var(--line);
+  border-radius: 6px 6px 12px 12px;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg);
+  flex: none;
+}
+.tank i {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--c);
+  opacity: .85;
+  transition: height .4s ease;
+}
+.big {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+.big small {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--mut);
+}
+.mut {
+  color: var(--mut);
+  font-size: 13px;
+}
+.tag {
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 99px;
+  border: 1px solid currentColor;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.tag.ok { color: var(--ok); }
+.tag.warn { color: var(--s1); }
+.tag.bad { color: var(--bad); }
+
+.kpi {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+.kpi b {
+  font-size: 22px;
+  letter-spacing: -0.5px;
+}
+.row, .tool {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+.sp { flex: 1; }
+.tool label, .pts label {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 12px;
+  color: var(--mut);
+}
+.btn {
+  font: inherit;
+  font-size: 13px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  padding: 6px 13px;
+  border-radius: 7px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all .15s;
+}
+.btn:hover { border-color: var(--mut); }
+.btn.pri {
+  background: var(--acc);
+  border-color: var(--acc);
+  color: #fff;
+  font-weight: 600;
+}
+.btn.pri:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btn.bad { color: var(--bad); }
+.btn.bad:hover { border-color: var(--bad); }
+
+input, select, textarea {
+  font: inherit;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 7px 9px;
+  width: 100%;
+  min-width: 0;
+  transition: border-color .15s;
+}
+input:disabled, select:disabled {
+  opacity: 0.6;
+  background: rgba(128,128,128,0.08);
+  cursor: not-allowed;
+}
+.tool input, .tool select { width: auto; }
+input:focus, select:focus, textarea:focus, button:focus-visible {
+  outline: 2px solid var(--acc);
+  outline-offset: 1px;
+}
+.pts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.pts .off input { opacity: .45; }
+.out {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+  border-top: 1px solid var(--line);
+  padding-top: 8px;
+  font-size: 13px;
+}
+.out div { display: flex; justify-content: space-between; }
+.out b { font-variant-numeric: tabular-nums; }
+.tw { overflow-x: auto; padding: 0; }
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+th, td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  white-space: nowrap;
+}
+th {
+  color: var(--mut);
+  font-weight: 600;
+  text-align: center;
+  background: var(--bg);
+}
+td.n { text-align: right; }
+.act { text-align: right; }
+.lnk {
+  font: inherit;
+  font-size: 13px;
+  border: 0;
+  background: none;
+  color: var(--acc);
+  cursor: pointer;
+  padding: 2px 6px;
+}
+.lnk.bad { color: var(--bad); }
+.lnk:hover { text-decoration: underline; }
+.rg {
+  display: inline-flex;
+  gap: 3px;
+  background: var(--bg);
+  padding: 3px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+}
+.rg .btn {
+  padding: 4px 10px;
+  font-size: 12px;
+  border: 0;
+  background: none;
+  border-radius: 5px;
+  font-weight: 500;
+}
+.rg .on {
+  background: var(--acc);
+  color: #fff;
+  font-weight: 600;
+}
+.lg {
+  display: flex;
+  gap: 14px;
+  font-size: 13px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.lg i {
+  display: inline-block;
+  width: 12px;
+  height: 3px;
+  background: var(--c);
+  margin-right: 5px;
+  vertical-align: middle;
+  border-radius: 2px;
+}
+svg { width: 100%; height: auto; display: block; }
+svg text { fill: var(--mut); font-size: 11px; }
+.note { font-size: 13px; color: var(--mut); line-height: 1.6; }
+.empty { text-align: center; padding: 36px 16px; }
+.empty .row { justify-content: center; }
+
+#toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  background: var(--ink);
+  color: var(--card);
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s;
+  z-index: 200000;
+  max-width: 90vw;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+#toast.show { opacity: 1; }
+#toast.err { background: var(--bad); color: #fff; }
+
+.cloud-pill {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 99px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+}
+.cloud-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ok); }
+.cloud-dot.off { background: var(--mut); }
+
+/* MODAL OVERLAY STYLES */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  z-index: 100000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.modal-box {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 420px;
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  animation: modalIn .2s ease-out;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.modal-header h3 { margin: 0; font-size: 16px; }
+
+/* LOCK BANNER FOR SHIFTS > 8 HOURS */
+.lock-banner {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 14px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+[data-theme="dark"] .lock-banner {
+  background: #2a1215;
+  border-color: #5c1d24;
+  color: #fca5a5;
+}
 
 @media(max-width:600px){
-  .bar{padding:10px 12px}
-  .pts{grid-template-columns:repeat(2,1fr)}
-  .kpi{gap:12px}
-  .kpi div{flex:1 1 45%}
-  nav button{padding:6px 9px;font-size:13px}
+  .bar { padding: 8px 12px; }
+  .pts { grid-template-columns: repeat(2, 1fr); }
+  .kpi { gap: 12px; }
+  .kpi div { flex: 1 1 45%; }
+  nav button { padding: 6px 9px; font-size: 13px; }
 }
 </style>
 </head>
@@ -250,7 +614,6 @@ svg text{fill:var(--mut);font-size:11px}
     <!-- 3 SILOS VECTOR ARTWORK -->
     <div class="splash-svg-container">
       <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Connecting top conveyor gallery -->
         <line x1="25" y1="28" x2="195" y2="28" stroke="#334155" stroke-width="2" stroke-dasharray="3 3"/>
         <line x1="25" y1="34" x2="195" y2="34" stroke="#475569" stroke-width="1.5"/>
 
@@ -258,9 +621,7 @@ svg text{fill:var(--mut);font-size:11px}
         <g id="sp-silo-1">
           <path d="M25 40 L45 26 L65 40 Z" fill="#1e293b" stroke="#0f766e" stroke-width="1.5"/>
           <rect x="25" y="40" width="40" height="70" rx="3" fill="#0f172a" stroke="#0f766e" stroke-width="1.5"/>
-          <!-- Clinker molten fill -->
           <rect id="sp-fill-1" x="27" y="65" width="36" height="43" fill="#0f766e" opacity="0.9"/>
-          <!-- Laser beam -->
           <line id="sp-beam-1" x1="45" y1="28" x2="45" y2="65" stroke="#2dd4bf" stroke-width="1.5" stroke-dasharray="2 2" opacity="0.7"/>
           <text x="45" y="105" fill="#e2e8f0" font-size="8" font-weight="bold" text-anchor="middle">7.1</text>
         </g>
@@ -269,9 +630,7 @@ svg text{fill:var(--mut);font-size:11px}
         <g id="sp-silo-2">
           <path d="M90 40 L110 26 L130 40 Z" fill="#1e293b" stroke="#c2410c" stroke-width="1.5"/>
           <rect x="90" y="40" width="40" height="70" rx="3" fill="#0f172a" stroke="#c2410c" stroke-width="1.5"/>
-          <!-- Clinker molten fill -->
           <rect id="sp-fill-2" x="92" y="78" width="36" height="30" fill="#c2410c" opacity="0.9"/>
-          <!-- Laser beam -->
           <line id="sp-beam-2" x1="110" y1="28" x2="110" y2="78" stroke="#fb923c" stroke-width="1.5" stroke-dasharray="2 2" opacity="0.7"/>
           <text x="110" y="105" fill="#e2e8f0" font-size="8" font-weight="bold" text-anchor="middle">8.1</text>
         </g>
@@ -280,9 +639,7 @@ svg text{fill:var(--mut);font-size:11px}
         <g id="sp-silo-3">
           <path d="M155 40 L175 26 L195 40 Z" fill="#1e293b" stroke="#6d28d9" stroke-width="1.5"/>
           <rect x="155" y="40" width="40" height="70" rx="3" fill="#0f172a" stroke="#6d28d9" stroke-width="1.5"/>
-          <!-- Clinker molten fill -->
           <rect id="sp-fill-3" x="157" y="55" width="36" height="53" fill="#6d28d9" opacity="0.9"/>
-          <!-- Laser beam -->
           <line id="sp-beam-3" x1="175" y1="28" x2="175" y2="55" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="2 2" opacity="0.7"/>
           <text x="175" y="105" fill="#e2e8f0" font-size="8" font-weight="bold" text-anchor="middle">8.2</text>
         </g>
@@ -290,7 +647,7 @@ svg text{fill:var(--mut);font-size:11px}
     </div>
 
     <h1 class="splash-title">SILO CLINKER</h1>
-    <div class="splash-subtitle">MONITORING SYSTEM · P.7/8</div>
+    <div class="splash-subtitle">MONITORING SYSTEM · PLANT 78</div>
 
     <div class="splash-progress-track">
       <div class="splash-progress-bar" id="sp-progress"></div>
@@ -308,18 +665,104 @@ svg text{fill:var(--mut);font-size:11px}
       <span class="badge-plant">PLANT 78</span>
       <h1>Monitoring Clinker Silo<small>Silo 7.1 · 8.1 · 8.2 · Plant 78</small></h1>
     </div>
-    <nav id="nav">
-      <button data-p="dash">Dasbor</button>
-      <button data-p="input">Input Shift</button>
-      <button data-p="hist">Riwayat</button>
-      <button data-p="cal">Kalibrasi</button>
-      <button id="sp-replay" title="Tampilkan Splash Animasi GSAP" style="padding:4px 8px;font-size:12px;">⚡</button>
-      <button id="tb" title="Ganti Tema" style="padding:4px 8px;font-size:13px;">🌓</button>
-    </nav>
+
+    <!-- Admin Status Pill & Header Controls -->
+    <div style="display:flex; align-items:center; gap:8px;">
+      <div id="admin-status-wrap"></div>
+      <nav id="nav">
+        <button data-p="dash">Dasbor</button>
+        <button data-p="input">Input Shift</button>
+        <button data-p="hist" id="nav-hist">Riwayat 🔒</button>
+        <button data-p="cal" id="nav-cal">Kalibrasi 🔒</button>
+        <button id="sp-replay" title="Tampilkan Splash Animasi GSAP" style="padding:4px 8px;font-size:12px;">⚡</button>
+        <button id="tb" title="Ganti Tema (Light/Dark)" style="padding:4px 8px;font-size:13px;">🌓</button>
+      </nav>
+    </div>
   </div>
 </header>
+
 <main id="app"></main>
 <div id="toast" role="status"></div>
+
+<!-- MODAL: PIN ADMIN AUTH -->
+<div id="modal-pin" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 style="color:var(--acc);">🔐 Masuk Mode Admin</h3>
+      <button class="lnk" onclick="closePinModal()" style="font-size:18px;">&times;</button>
+    </div>
+    <p class="mut" style="font-size:13px; margin-top:0;">
+      Akses ke Riwayat dan Pengaturan Kalibrasi memerlukan verifikasi PIN Admin (Default: <b>100700</b>).
+    </p>
+    <div style="margin-bottom:14px;">
+      <label style="font-size:12px; color:var(--mut); display:block; margin-bottom:4px;">PIN Administrator</label>
+      <input type="password" id="input-admin-pin" inputmode="numeric" maxlength="12" placeholder="Ketik 6 digit PIN..." style="font-size:16px; letter-spacing:4px; text-align:center;">
+    </div>
+    <div class="row" style="justify-content:flex-end;">
+      <button class="btn" onclick="closePinModal()">Batal</button>
+      <button class="btn pri" onclick="verifyAdminPin()">Verifikasi & Masuk</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: UBAH PIN ADMIN -->
+<div id="modal-change-pin" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>⚙️ Ubah PIN Administrator</h3>
+      <button class="lnk" onclick="closeChangePinModal()">&times;</button>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:14px;">
+      <label style="font-size:12px; color:var(--mut);">
+        PIN Lama
+        <input type="password" id="old-pin" inputmode="numeric" placeholder="PIN saat ini">
+      </label>
+      <label style="font-size:12px; color:var(--mut);">
+        PIN Baru (Minimal 4 Angka)
+        <input type="password" id="new-pin-1" inputmode="numeric" placeholder="PIN baru">
+      </label>
+      <label style="font-size:12px; color:var(--mut);">
+        Konfirmasi PIN Baru
+        <input type="password" id="new-pin-2" inputmode="numeric" placeholder="Ketik ulang PIN baru">
+      </label>
+    </div>
+    <div class="row" style="justify-content:flex-end;">
+      <button class="btn" onclick="closeChangePinModal()">Batal</button>
+      <button class="btn pri" onclick="saveNewPin()">Simpan PIN Baru</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: LAPOR SALAH INPUT KE ADMIN -->
+<div id="modal-report" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 style="color:var(--bad);">📢 Lapor Kesalahan Input Shift</h3>
+      <button class="lnk" onclick="closeReportModal()">&times;</button>
+    </div>
+    <p class="mut" style="font-size:12px; margin-top:0;">
+      Shift ini telah terkunci (> 8 jam). Kirimkan informasi kesalahan ukur kepada Admin agar direvisi di sistem.
+    </p>
+    <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:14px;">
+      <label style="font-size:12px; color:var(--mut);">
+        NIK Pelapor
+        <input type="text" id="rep-nik" readonly style="opacity:0.8;">
+      </label>
+      <label style="font-size:12px; color:var(--mut);">
+        Tanggal & Shift yang Salah
+        <input type="text" id="rep-shift" readonly style="opacity:0.8;">
+      </label>
+      <label style="font-size:12px; color:var(--mut);">
+        Rincian Koreksi / Kesalahan
+        <textarea id="rep-detail" rows="3" placeholder="Contoh: Titik ukur Silo 7.1 titik I tertulis 35 m, seharusnya 25 m..."></textarea>
+      </label>
+    </div>
+    <div class="row" style="justify-content:flex-end; gap:8px;">
+      <button class="btn" onclick="copyReportText()">📋 Salin Teks</button>
+      <button class="btn pri" onclick="sendReportWA()">💬 Kirim WhatsApp</button>
+    </div>
+  </div>
+</div>
 
 <script>
 // Google Apps Script Web App Deployment Endpoint (CORS Cloud API)
@@ -329,10 +772,12 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbxtrdHL6AJT0Np6dbtk
 const TBL = [50286.4, 50008.7, 49730.9, 49453.1, 48941.7, 48664.0, 48386.2, 48108.4, 47597.1, 47319.3, 47041.5, 46763.7, 46252.4, 45974.6, 45696.8, 45419.0, 44907.7, 44629.9, 44352.1, 44074.4, 43563.0, 43285.2, 43007.4, 42729.7, 42218.3, 41940.5, 41662.8, 41385.0, 40873.6, 40595.8, 40318.1, 40040.3, 39528.9, 39251.2, 38973.4, 38695.6, 38184.2, 37906.5, 37628.7, 37350.9, 36839.6, 36561.8, 36284.0, 36006.2, 35494.9, 35217.1, 34939.3, 34661.5, 34150.2, 33872.4, 33594.6, 33316.8, 32805.5, 32527.7, 32249.9, 31972.2, 31460.8, 31183.0, 30905.2, 30627.5, 30116.1, 29838.3, 29560.6, 29282.8, 28771.4, 28493.7, 28215.9, 27938.1, 27426.7, 27149.0, 26871.2, 26593.4, 26082.1, 25804.3, 25526.5, 25248.7, 24737.4, 24459.6, 24181.8, 23904.0, 23392.7, 23114.9, 22837.1, 22559.3, 22048.0, 21770.2, 21492.4, 21214.7, 20703.3, 20425.5, 20147.7, 19870.0, 19358.6, 19080.8, 18803.1, 18525.3, 18013.9, 17736.1, 17458.4, 17180.6, 16669.2, 16391.5, 16113.7, 15835.9, 15324.5, 15046.8, 14769.0, 14491.2, 13979.9, 13702.1, 13424.3, 13146.5, 12635.2, 12357.4, 12079.6, 11801.8, 11290.5, 11012.7, 10734.9, 10457.1, 9945.8, 9782.7, 9619.7, 9456.7, 9293.6, 9130.6, 8967.5, 8804.5, 8641.4, 8478.4, 8315.3, 8152.3, 7989.2, 7826.2, 7663.2, 7500.1, 7337.1, 7174.0, 7011.0, 6847.9, 6684.9, 6521.8, 6358.8, 6195.7, 6032.7, 5869.6, 5706.6, 5543.6, 5380.5, 5217.5, 5054.4, 4891.4, 4728.3, 4565.3, 4402.2, 4239.2, 4076.1, 3913.1, 3750.1, 3587.0, 3424.0, 3260.9, 3097.9, 2934.8, 2771.8, 2608.7, 2445.7, 2282.6, 2119.6, 1956.5, 1793.5, 1630.5, 1467.4, 1304.4, 1141.3, 978.3, 815.2, 652.2, 489.1, 326.1, 163.0, 0.0, 0.0, 0.0];
 const SI = ['7.1', '8.1', '8.2'];
 const SH = ['A', 'B', 'C'];
-const OR = { C: 0, A: 1, B: 2 }; // Chronological order: C, A, B
+const OR = { C: 0, A: 1, B: 2 }; // Chronological daily order: C, A, B
 const HT = 45.25, CAP = TBL[0];
 const ZN = ['Arah Kiln', 'Arah Kiln', 'Tengah', 'Tengah', 'Arah FM', 'Arah FM'];
 const RM = ['I', 'II', 'III', 'IV', 'V', 'VI'];
+
+// Default Global Calibration
 const DEF = {
   '7.1': { w: [1, 1, 1, 1, 1.6, 1.35], n: 6, th: 40, hi: 0.9, lo: 0.925 },
   '8.1': { w: [0.95, 1, 1, 1, 0.85, 0], n: 5, th: 20, hi: 0.8, lo: 0.9 },
@@ -347,23 +792,107 @@ const f0 = n => (n == null || isNaN(n)) ? '-' : Math.round(n).toLocaleString('id
 const f2 = n => (n == null || isNaN(n)) ? '-' : Number(n).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const fd = d => !d ? '-' : d.split('-').reverse().join('/');
 const today = () => new Date(Date.now() - new Date().getTimezoneOffset() * 6e4).toISOString().slice(0, 10);
-const gs = () => { const h = new Date().getHours(); return (h >= 7 && h < 15) ? 'A' : (h >= 15 && h < 23) ? 'B' : 'C'; };
 const clone = o => JSON.parse(JSON.stringify(o));
 
+// Shift Timing helper
+// Shift A: 07:00 - 15:00
+// Shift B: 15:01 - 23:00
+// Shift C: 23:01 - 07:00
+function getShiftSchedule(now = new Date()) {
+  const h = now.getHours();
+  const m = now.getMinutes();
+  const mins = h * 60 + m;
+
+  if (mins >= 420 && mins <= 900) { // 07:00 s/d 15:00
+    return { shift: 'A', date: today() };
+  } else if (mins > 900 && mins <= 1380) { // 15:01 s/d 23:00
+    return { shift: 'B', date: today() };
+  } else { // 23:01 s/d 06:59
+    if (mins > 1380) {
+      // 23:01 s/d 23:59 represents start of Shift C closing tomorrow morning
+      const nextDay = new Date(now.getTime() + 864e5);
+      return { shift: 'C', date: nextDay.toISOString().slice(0, 10) };
+    } else {
+      // 00:00 s/d 06:59 represents Shift C of today
+      return { shift: 'C', date: today() };
+    }
+  }
+}
+
+// Check 8-hour editable window for non-admin
+function checkShiftWindow(dateStr, shiftStr, now = new Date()) {
+  if (adminState.isAdmin) {
+    return { isAllowed: true, reason: 'Mode Admin: Bebas ubah data kapan saja' };
+  }
+
+  const [y, m, d] = dateStr.split('-').map(Number);
+  let startTime, endTime;
+
+  if (shiftStr === 'A') {
+    startTime = new Date(y, m - 1, d, 7, 0, 0);
+    endTime = new Date(y, m - 1, d, 15, 0, 0);
+  } else if (shiftStr === 'B') {
+    startTime = new Date(y, m - 1, d, 15, 1, 0);
+    endTime = new Date(y, m - 1, d, 23, 0, 0);
+  } else if (shiftStr === 'C') {
+    // Shift C ended at 07:00 on dateStr, started at 23:01 yesterday
+    startTime = new Date(y, m - 1, d - 1, 23, 1, 0);
+    endTime = new Date(y, m - 1, d, 7, 0, 0);
+  }
+
+  const nowMs = now.getTime();
+  // 30-minute grace period after shift handover
+  const graceMs = 30 * 60 * 1000;
+  const isAllowed = (nowMs >= startTime.getTime()) && (nowMs <= (endTime.getTime() + graceMs));
+
+  return {
+    isAllowed,
+    startTime,
+    endTime,
+    reason: isAllowed 
+      ? 'Dalam durasi 8 jam shift berjalan' 
+      : 'Shift telah berakhir (> 8 jam). Hanya Admin yang dapat merevisi data.'
+  };
+}
+
 // Application State
-let S = { recs: [], prof: clone(DEF) };
+const DEFAULT_PIN = '100700';
+let adminState = {
+  isAdmin: false,
+  pin: localStorage.getItem('silo.admin_pin') || DEFAULT_PIN,
+  pendingTargetPage: null
+};
+
+let S = {
+  recs: [],
+  prof: {
+    default: clone(DEF),
+    overrides: {} // Specific calibration for particular date + shift: { "2026-11-19_B": { ... } }
+  }
+};
+
 let pg = 'dash';
-let dGran = 'shift'; // 'shift', 'daily', 'weekly'
-let hGran = 'shift'; // 'shift', 'daily', 'weekly'
-let rng = 30; // Chart range: 7, 14, 30, 90, 0 (all)
-let cGran = 'shift'; // Chart aggregation: 'shift', 'daily'
+let dGran = 'shift';
+let hGran = 'shift';
+let calMode = 'global'; // 'global' or 'specific'
+let calSpecDate = today();
+let calSpecShift = 'A';
+let rng = 30;
+let cGran = 'shift';
 let lim = 50;
-let IN = { d: today(), s: gs(), x: {} };
+
+const initialShiftInfo = getShiftSchedule();
+let IN = {
+  d: initialShiftInfo.date,
+  s: initialShiftInfo.shift,
+  nik: localStorage.getItem('silo.operator_nik') || '',
+  x: {}
+};
 let HF = { a: '', b: '', q: '' };
 let tt;
 let isCloudOnline = false;
 
-// 1. GSAP CINEMATIC SPLASH SCREEN CONTROLLER
+// GSAP SPLASH SCREEN CONTROLLER
 function runSplashAnimation() {
   const splash = $('#splash-screen');
   if (!splash) return;
@@ -372,8 +901,7 @@ function runSplashAnimation() {
   splash.style.pointerEvents = 'auto';
 
   if (typeof gsap === 'undefined') {
-    // Fallback if GSAP CDN blocked
-    setTimeout(() => { splash.style.display = 'none'; }, 1200);
+    setTimeout(() => { splash.style.display = 'none'; }, 1000);
     return;
   }
 
@@ -383,7 +911,7 @@ function runSplashAnimation() {
         opacity: 0,
         scale: 1.05,
         filter: 'blur(8px)',
-        duration: 0.6,
+        duration: 0.5,
         ease: 'power2.inOut',
         onComplete: () => {
           splash.style.display = 'none';
@@ -393,28 +921,25 @@ function runSplashAnimation() {
     }
   });
 
-  // Fast forward on tap
-  splash.onclick = () => {
-    tl.timeScale(4);
-  };
+  splash.onclick = () => { tl.timeScale(4); };
 
-  // Timeline steps
   tl.set('#sp-progress', { width: '0%' })
     .fromTo('.splash-badge', { y: -20, opacity: 0, scale: 0.8 }, { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.7)' })
-    .fromTo(['#sp-silo-1', '#sp-silo-2', '#sp-silo-3'], { y: 30, opacity: 0, scaleY: 0.7 }, { y: 0, opacity: 1, scaleY: 1, stagger: 0.15, duration: 0.6, ease: 'power3.out' }, '-=0.2')
-    .fromTo(['#sp-fill-1', '#sp-fill-2', '#sp-fill-3'], { scaleY: 0, transformOrigin: 'bottom' }, { scaleY: 1, stagger: 0.12, duration: 0.8, ease: 'power2.out' }, '-=0.3')
-    .fromTo(['#sp-beam-1', '#sp-beam-2', '#sp-beam-3'], { opacity: 0, strokeDasharray: '4 4' }, { opacity: 0.9, duration: 0.4, yoyo: true, repeat: 1 }, '-=0.5')
-    .fromTo('.splash-title', { opacity: 0, scale: 0.92, letterSpacing: '8px' }, { opacity: 1, scale: 1, letterSpacing: '3px', duration: 0.6, ease: 'expo.out' }, '-=0.4')
-    .fromTo('.splash-subtitle', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 }, '-=0.3')
-    .to('#sp-progress', { width: '40%', duration: 0.4, ease: 'none', onStart: () => { $('#sp-ticker').textContent = 'CALIBRATING SENSORS...'; } })
-    .to('#sp-progress', { width: '80%', duration: 0.5, ease: 'none', onStart: () => { $('#sp-ticker').textContent = 'SYNCING PLANT 78 DATA...'; } })
-    .to('#sp-progress', { width: '100%', duration: 0.3, ease: 'none', onStart: () => { $('#sp-ticker').textContent = 'SYSTEM OPERATIONAL · READY'; } });
+    .fromTo(['#sp-silo-1', '#sp-silo-2', '#sp-silo-3'], { y: 30, opacity: 0, scaleY: 0.7 }, { y: 0, opacity: 1, scaleY: 1, stagger: 0.15, duration: 0.5, ease: 'power3.out' }, '-=0.2')
+    .fromTo(['#sp-fill-1', '#sp-fill-2', '#sp-fill-3'], { scaleY: 0, transformOrigin: 'bottom' }, { scaleY: 1, stagger: 0.12, duration: 0.7, ease: 'power2.out' }, '-=0.3')
+    .fromTo(['#sp-beam-1', '#sp-beam-2', '#sp-beam-3'], { opacity: 0, strokeDasharray: '4 4' }, { opacity: 0.9, duration: 0.4, yoyo: true, repeat: 1 }, '-=0.4')
+    .fromTo('.splash-title', { opacity: 0, scale: 0.92, letterSpacing: '8px' }, { opacity: 1, scale: 1, letterSpacing: '3px', duration: 0.5, ease: 'expo.out' }, '-=0.3')
+    .fromTo('.splash-subtitle', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 }, '-=0.2')
+    .to('#sp-progress', { width: '40%', duration: 0.3, ease: 'none', onStart: () => { $('#sp-ticker').textContent = 'CALIBRATING SENSORS...'; } })
+    .to('#sp-progress', { width: '80%', duration: 0.4, ease: 'none', onStart: () => { $('#sp-ticker').textContent = 'SYNCING PLANT 78 DATA...'; } })
+    .to('#sp-progress', { width: '100%', duration: 0.3, ease: 'none', onStart: () => { $('#sp-ticker').textContent = 'SYSTEM OPERATIONAL · PLANT 78 READY'; } });
 }
 
 function unpackSeed() {
   return SEED_COMPACT.map(r => ({
     d: r[0],
     s: r[1],
+    nik: '-', // Legacy Excel imported records
     v: {
       '7.1': { x: r[2], mr: r[3], ma: r[4], k: r[5], t: r[6] },
       '8.1': { x: r[7], mr: r[8], ma: r[9], k: r[10], t: r[11] },
@@ -425,17 +950,22 @@ function unpackSeed() {
 
 function load() {
   try {
-    const raw = localStorage.getItem('silo.p7.v2');
+    const raw = localStorage.getItem('silo.p78.v3');
     if (raw) {
       const j = JSON.parse(raw);
       if (j && j.recs && j.recs.length) {
         S.recs = j.recs;
-        if (j.prof) S.prof = Object.assign(clone(DEF), j.prof);
+        if (j.prof) {
+          S.prof = {
+            default: Object.assign(clone(DEF), j.prof.default || j.prof),
+            overrides: j.prof.overrides || {}
+          };
+        }
         return;
       }
     }
   } catch (e) {
-    console.warn('Gagal membaca storage lokal:', e);
+    console.warn('Gagal membaca storage:', e);
   }
   S.recs = unpackSeed();
   save();
@@ -443,10 +973,19 @@ function load() {
 
 function save() {
   try {
-    localStorage.setItem('silo.p7.v2', JSON.stringify(S));
+    localStorage.setItem('silo.p78.v3', JSON.stringify(S));
   } catch (e) {
-    toast('Penyimpanan browser penuh atau tidak tersedia', 1);
+    toast('Penyimpanan lokal penuh', 1);
   }
+}
+
+// Get calibration profile for a specific date and shift
+function getProfileFor(d, s) {
+  const key = d + '_' + s;
+  if (S.prof.overrides && S.prof.overrides[key]) {
+    return S.prof.overrides[key];
+  }
+  return S.prof.default || DEF;
 }
 
 const srt = () => S.recs.slice().sort((a, b) => (a.d + OR[a.s]) < (b.d + OR[b.s]) ? -1 : 1);
@@ -482,6 +1021,7 @@ function loadIN() {
   const r = S.recs.find(r => r.d === IN.d && r.s === IN.s);
   IN.x = {};
   if (r) {
+    if (r.nik && !IN.nik) IN.nik = r.nik;
     SI.forEach(id => {
       if (r.v[id]) IN.x[id] = r.v[id].x.slice();
     });
@@ -565,7 +1105,7 @@ function chart(R) {
   `;
 }
 
-// 1. DASBOR VIEW
+// 1. DASBOR VIEW (Accessible to all)
 function dash() {
   const R = srt();
   const L = R[R.length - 1];
@@ -575,7 +1115,7 @@ function dash() {
     return `
       <div class="card empty">
         <h2>Belum ada data riwayat</h2>
-        <p class="mut">Mulai dengan mencatat shift pertama atau periksa koneksi data.</p>
+        <p class="mut">Mulai dengan mencatat shift pertama.</p>
         <div class="row">
           <button class="btn pri" onclick="go('input')">Input Shift Pertama</button>
         </div>
@@ -692,6 +1232,7 @@ function dash() {
 
     <div class="grid">${cards}</div>
 
+    <!-- TREN STOK CLINKER (Semua orang dapat melihat tren) -->
     <div class="card" style="margin-top:14px">
       <div class="hd">
         <h2>Tren Stok Clinker (ton)</h2>
@@ -712,11 +1253,16 @@ function dash() {
   `;
 }
 
-// 2. INPUT SHIFT VIEW
+// 2. INPUT SHIFT VIEW (With NIK 7-Digits & 8-Hour Lock)
 function inp() {
+  const win = checkShiftWindow(IN.d, IN.s);
+  const isAllowed = win.isAllowed;
   const ex = S.recs.find(r => r.d === IN.d && r.s === IN.s);
+  const prof = getProfileFor(IN.d, IN.s);
+  const isCustomCal = !!(S.prof.overrides && S.prof.overrides[IN.d + '_' + IN.s]);
+
   const sc = SI.map((id, i) => {
-    const p = S.prof[id];
+    const p = prof[id];
     const x = IN.x[id] || [];
     return `
       <div class="card" style="--c:var(--s${i})">
@@ -728,7 +1274,10 @@ function inp() {
           ${RM.map((r, k) => `
             <label class="${p.w[k] ? '' : 'off'}">
               <span>${r} · ${ZN[k]}</span>
-              <input type="number" inputmode="decimal" step="0.1" min="0" max="${HT}" data-s="${id}" data-k="${k}" value="${x[k] ?? ''}" ${p.w[k] ? '' : 'placeholder="tidak dipakai"'}>
+              <input type="number" inputmode="decimal" step="0.1" min="0" max="${HT}" 
+                data-s="${id}" data-k="${k}" value="${x[k] ?? ''}" 
+                ${p.w[k] ? '' : 'placeholder="tidak dipakai"'}
+                ${isAllowed ? '' : 'disabled'}>
             </label>
           `).join('')}
         </div>
@@ -738,6 +1287,20 @@ function inp() {
   }).join('');
 
   return `
+    ${!isAllowed ? `
+      <div class="lock-banner">
+        <div>
+          <b>🔒 Shift Ini Terkunci (> 8 Jam)</b><br>
+          <span style="font-size:12px;">
+            ${win.reason}. Anda tidak dapat mengubah data ini secara langsung.
+          </span>
+        </div>
+        <button class="btn" style="background:#dc2626; color:#fff; border:0; font-size:12px;" onclick="openReportModal()">
+          📢 Lapor Salah Input ke Admin
+        </button>
+      </div>
+    ` : ''}
+
     <div class="card tool">
       <label>
         Tanggal
@@ -746,32 +1309,49 @@ function inp() {
       <label>
         Shift
         <select id="fs">
-          ${SH.map(s => `<option ${s === IN.s ? 'selected' : ''}>${s}</option>`).join('')}
+          ${SH.map(s => `<option ${s === IN.s ? 'selected' : ''}>Shift ${s} (${s === 'A' ? '07:00-15:00' : s === 'B' ? '15:01-23:00' : '23:01-07:00'})</option>`).join('')}
         </select>
       </label>
+      <label>
+        NIK Operator (7 Angka) <span style="color:var(--bad);">*</span>
+        <input type="text" id="fn" inputmode="numeric" pattern="[0-9]{7}" maxlength="7" 
+          placeholder="Contoh: 1234567" value="${IN.nik}" ${isAllowed ? '' : 'disabled'}
+          style="font-weight:600; letter-spacing:1px; width:130px;">
+      </label>
       <span class="tag ${ex ? 'warn' : 'ok'}">
-        ${ex ? '⚠️ Catatan sudah ada · akan ditimpa' : '✨ Catatan baru'}
+        ${ex ? '✏️ Catatan sudah ada (Edit)' : '✨ Catatan baru'}
       </span>
+      ${isCustomCal ? '<span class="tag warn" title="Memakai kalibrasi khusus shift ini">🎯 Kalibrasi Khusus</span>' : ''}
       <span class="sp"></span>
-      <button class="btn" onclick="quickFillPrev()">Isi dari shift sebelumnya</button>
+      <button class="btn" onclick="quickFillPrev()" ${isAllowed ? '' : 'disabled'}>Isi dari shift sebelumnya</button>
     </div>
 
     <p class="note">
-      Masukkan jarak (meter) dari atas silo ke permukaan clinker pada masing-masing titik ukur (I–VI). 
-      Hasil Meter Real, Meter Adjust, Pembulatan 0,25 m, dan Ton Stok dihitung otomatis memakai rumus kalibrasi aktif PLANT 78.
+      Operator wajib memasukkan <b>7 digit NIK pekerja</b>. Selama shift berjalan (8 jam), isian masih dapat diperbaiki. 
+      Jika melebihi 8 jam, data otomatis terkunci dan koreksi wajib dilaporkan ke Administrator.
     </p>
 
     <div class="grid">${sc}</div>
 
     <div class="row" style="margin-top:14px">
-      <button class="btn pri" onclick="saveIn()">💾 Simpan Catatan Shift</button>
-      <button class="btn" onclick="IN.x={};render()">Kosongkan Form</button>
+      <button class="btn pri" onclick="saveIn()" ${isAllowed ? '' : 'disabled'}>
+        💾 Simpan Catatan Shift
+      </button>
+      <button class="btn" onclick="IN.x={};render()" ${isAllowed ? '' : 'disabled'}>
+        Kosongkan Form
+      </button>
+      ${!isAllowed ? `
+        <button class="btn bad" onclick="openReportModal()">
+          📢 Laporkan Kesalahan Ukur
+        </button>
+      ` : ''}
     </div>
   `;
 }
 
 function upd(id) {
-  const p = S.prof[id];
+  const prof = getProfileFor(IN.d, IN.s);
+  const p = prof[id];
   const x = IN.x[id] || [];
   const el = $('#o' + id.replace('.', '_'));
   if (!el) return;
@@ -802,9 +1382,22 @@ function quickFillPrev() {
 }
 
 function saveIn() {
+  const win = checkShiftWindow(IN.d, IN.s);
+  if (!win.isAllowed) {
+    return toast('Shift terkunci (> 8 jam). Hubungi Admin untuk koreksi data.', 1);
+  }
+
+  // Validate NIK
+  const nikVal = String(IN.nik || '').trim();
+  if (!/^\d{7}$/.test(nikVal)) {
+    return toast('NIK harus terdiri dari 7 digit angka pekerja!', 1);
+  }
+  localStorage.setItem('silo.operator_nik', nikVal);
+
+  const prof = getProfileFor(IN.d, IN.s);
   const v = {};
   for (const id of SI) {
-    const p = S.prof[id];
+    const p = prof[id];
     const x = [0, 1, 2, 3, 4, 5].map(k => (IN.x[id] || [])[k]);
     if (x.every(n => n == null)) continue;
     const miss = RM.filter((r, k) => p.w[k] && (x[k] == null || isNaN(x[k])));
@@ -818,28 +1411,25 @@ function saveIn() {
   const payload = {
     tanggal: IN.d,
     shift: IN.s,
+    nik: nikVal,
+    isAdmin: adminState.isAdmin,
     silo71: v['7.1'] ? v['7.1'].x : [null,null,null,null,null,null],
     silo81: v['8.1'] ? v['8.1'].x : [null,null,null,null,null,null],
     silo82: v['8.2'] ? v['8.2'].x : [null,null,null,null,null,null]
   };
 
-  // 1. Instant local persistence
+  // Instant local persistence
   S.recs = S.recs.filter(r => !(r.d === IN.d && r.s === IN.s));
-  S.recs.push({ d: IN.d, s: IN.s, v });
+  S.recs.push({ d: IN.d, s: IN.s, nik: nikVal, v });
   save();
 
-  // 2. Dual-mode sync (Google Apps Script Web App OR CORS API on GitHub Pages)
+  // Cloud sync
   if (typeof google !== 'undefined' && google.script && google.script.run) {
     google.script.run
-      .withSuccessHandler(res => {
-        toast('Tersimpan di Google Sheets & Lokal');
-      })
-      .withFailureHandler(err => {
-        toast('Tersimpan lokal (Google Sheets: offline)', 1);
-      })
+      .withSuccessHandler(() => toast('Tersimpan di Google Sheets & Lokal'))
+      .withFailureHandler(() => toast('Tersimpan lokal (Google Sheets offline)', 1))
       .simpanCatatan(payload);
   } else if (GAS_API_URL) {
-    // Send to Google Cloud API via fetch
     fetch(GAS_API_URL, {
       method: 'POST',
       mode: 'no-cors',
@@ -848,9 +1438,8 @@ function saveIn() {
     }).then(() => {
       isCloudOnline = true;
       toast('Catatan tersimpan ke Cloud & Offline');
-    }).catch(e => {
-      console.warn('Sync cloud error:', e);
-      toast('Tersimpan di offline browser (Cloud pending)', 1);
+    }).catch(() => {
+      toast('Tersimpan offline (Cloud pending)', 1);
     });
   } else {
     toast('Catatan shift berhasil disimpan');
@@ -859,13 +1448,26 @@ function saveIn() {
   render();
 }
 
-// 3. RIWAYAT VIEW
+// 3. RIWAYAT VIEW (RESTRICTED TO ADMIN)
 function hist() {
+  if (!adminState.isAdmin) {
+    return `
+      <div class="card empty">
+        <h2 style="color:var(--bad);">🔒 Akses Dibatasi untuk Administrator</h2>
+        <p class="mut">Halaman Riwayat dan edit jawaban lama hanya dapat diakses oleh Admin dengan PIN.</p>
+        <div class="row">
+          <button class="btn pri" onclick="openPinModal('hist')">Masukkan PIN Admin</button>
+          <button class="btn" onclick="go('dash')">Kembali ke Dasbor</button>
+        </div>
+      </div>
+    `;
+  }
+
   const all = srt().slice().reverse();
   let filtered = all.filter(r => (!HF.a || r.d >= HF.a) && (!HF.b || r.d <= HF.b));
   if (HF.q) {
     const q = HF.q.toLowerCase();
-    filtered = filtered.filter(r => r.d.includes(q) || r.s.toLowerCase().includes(q));
+    filtered = filtered.filter(r => r.d.includes(q) || r.s.toLowerCase().includes(q) || (r.nik && r.nik.includes(q)));
   }
 
   let tableContent = '';
@@ -879,6 +1481,7 @@ function hist() {
         <tr>
           <td><b>${fd(r.d)}</b></td>
           <td style="text-align:center;"><span class="badge-plant" style="font-size:10px;">${r.s}</span></td>
+          <td style="font-family:ui-monospace, monospace; font-size:12px;"><b>${r.nik || '-'}</b></td>
           ${SI.map(id => {
             const c = r.v[id];
             return c && c.t != null ? `<td class="n">${f2(c.k)}</td><td class="n">${f0(c.t)}</td>` : '<td class="n mut">–</td><td class="n mut">–</td>';
@@ -898,6 +1501,7 @@ function hist() {
           <tr>
             <th rowspan="2">Tanggal</th>
             <th rowspan="2">Shift</th>
+            <th rowspan="2">NIK Operator</th>
             ${SI.map(id => `<th colspan="2">Silo ${id}</th>`).join('')}
             <th rowspan="2">Total (t)</th>
             <th rowspan="2">Aksi</th>
@@ -907,7 +1511,7 @@ function hist() {
           </tr>
         </thead>
         <tbody>
-          ${rows || '<tr><td colspan="10" class="mut" style="text-align:center;">Tidak ada catatan yang cocok.</td></tr>'}
+          ${rows || '<tr><td colspan="11" class="mut" style="text-align:center;">Tidak ada catatan yang cocok.</td></tr>'}
         </tbody>
       </table>
     `;
@@ -991,7 +1595,7 @@ function hist() {
         <button class="btn ${hGran === 'daily' ? 'on' : ''}" onclick="hGran='daily';render()">📅 Rekap Harian</button>
         <button class="btn ${hGran === 'weekly' ? 'on' : ''}" onclick="hGran='weekly';render()">📊 Rekap Mingguan</button>
       </div>
-      <span class="mut">${f0(totalCount)} catatan ditemukan</span>
+      <span class="tag ok">🛡️ Mode Administrator</span>
     </div>
 
     <div class="card tool">
@@ -1004,15 +1608,15 @@ function hist() {
         <input type="date" id="hb" value="${HF.b}">
       </label>
       <label>
-        Cari
-        <input type="text" id="hq" placeholder="YYYY-MM atau Shift" value="${HF.q}">
+        Cari (Tanggal/Shift/NIK)
+        <input type="text" id="hq" placeholder="YYYY-MM atau NIK" value="${HF.q}">
       </label>
       <span class="sp"></span>
       <label class="btn" title="Impor dari file Excel Silo_clinker.xlsx">
         📥 Impor Excel
         <input type="file" accept=".xlsx" hidden onchange="imp(this.files[0])">
       </label>
-      <button class="btn" onclick="expCSV()">📤 Ekspor CSV (37 Kolom)</button>
+      <button class="btn" onclick="expCSV()">📤 Ekspor CSV (38 Kolom)</button>
       <button class="btn bad" onclick="twice(this, wipe)">🗑️ Hapus Semua</button>
     </div>
 
@@ -1029,6 +1633,7 @@ function hist() {
 }
 
 function wipe() {
+  if (!adminState.isAdmin) return toast('Hanya Admin yang dapat menghapus data', 1);
   S.recs = [];
   save();
   toast('Seluruh catatan berhasil dihapus');
@@ -1037,14 +1642,14 @@ function wipe() {
 
 function expCSV() {
   const headers = [
-    'Tanggal', 'Shift',
+    'Tanggal', 'Shift', 'NIK_Operator',
     '7.1_I', '7.1_II', '7.1_III', '7.1_IV', '7.1_V', '7.1_VI', '7.1_Real', '7.1_Adjust', '7.1_Bulat', '7.1_Stok',
     '8.1_I', '8.1_II', '8.1_III', '8.1_IV', '8.1_V', '8.1_VI', '8.1_Real', '8.1_Adjust', '8.1_Bulat', '8.1_Stok',
     '8.2_I', '8.2_II', '8.2_III', '8.2_IV', '8.2_V', '8.2_VI', '8.2_Real', '8.2_Adjust', '8.2_Bulat', '8.2_Stok'
   ];
   const lines = [headers.join(',')];
   srt().forEach(r => {
-    const row = [r.d, r.s];
+    const row = [r.d, r.s, r.nik || ''];
     SI.forEach(id => {
       const c = r.v[id];
       for (let k = 0; k < 6; k++) {
@@ -1071,8 +1676,9 @@ function expCSV() {
 }
 
 function imp(f) {
+  if (!adminState.isAdmin) return toast('Hanya Admin yang dapat mengimpor Excel', 1);
   if (!f) return;
-  if (typeof XLSX === 'undefined') return toast('Pustaka Excel belum termuat, periksa koneksi', 1);
+  if (typeof XLSX === 'undefined') return toast('Pustaka Excel belum termuat', 1);
   const fr = new FileReader();
   fr.onload = e => {
     try {
@@ -1101,9 +1707,9 @@ function imp(f) {
             };
           }
         });
-        if (any) out.push({ d: ld, s: r[1], v });
+        if (any) out.push({ d: ld, s: r[1], nik: r[37] ? String(r[37]) : '-', v });
       }
-      if (!out.length) return toast('Tidak ada baris data terbaca. Pastikan format cocok.', 1);
+      if (!out.length) return toast('Tidak ada baris data terbaca.', 1);
       const m = new Map(S.recs.map(r => [r.d + r.s, r]));
       out.forEach(r => m.set(r.d + r.s, r));
       S.recs = Array.from(m.values());
@@ -1119,8 +1725,21 @@ function imp(f) {
   fr.readAsArrayBuffer(f);
 }
 
-// 4. KALIBRASI VIEW
+// 4. KALIBRASI VIEW (RESTRICTED TO ADMIN - GLOBAL & SPECIFIC PER SHIFT)
 function cal() {
+  if (!adminState.isAdmin) {
+    return `
+      <div class="card empty">
+        <h2 style="color:var(--bad);">🔒 Akses Dibatasi untuk Administrator</h2>
+        <p class="mut">Halaman Pengaturan Kalibrasi memerlukan otorisasi PIN Admin.</p>
+        <div class="row">
+          <button class="btn pri" onclick="openPinModal('cal')">Masukkan PIN Admin</button>
+          <button class="btn" onclick="go('dash')">Kembali ke Dasbor</button>
+        </div>
+      </div>
+    `;
+  }
+
   const F = (id, f, l, v, st) => `
     <label>
       <span>${l}</span>
@@ -1128,45 +1747,130 @@ function cal() {
     </label>
   `;
 
+  // Get active profile being edited
+  let activeProf;
+  let isOverrideActive = false;
+  const specKey = calSpecDate + '_' + calSpecShift;
+
+  if (calMode === 'global') {
+    activeProf = S.prof.default || DEF;
+  } else {
+    isOverrideActive = !!(S.prof.overrides && S.prof.overrides[specKey]);
+    activeProf = isOverrideActive ? S.prof.overrides[specKey] : (S.prof.default || DEF);
+  }
+
+  const gridCards = SI.map((id, i) => {
+    const p = activeProf[id];
+    return `
+      <div class="card" style="--c:var(--s${i})">
+        <div class="hd"><b>Silo ${id}</b></div>
+        <div class="pts">
+          ${RM.map((r, k) => F(id, 'w' + k, 'Bobot ' + r, p.w[k], 0.05)).join('')}
+        </div>
+        <div class="pts" style="margin-top:10px;">
+          ${F(id, 'n', 'Pembagi (n)', p.n, 1)}
+          ${F(id, 'th', 'Batas meter', p.th, 0.5)}
+          <span></span>
+          ${F(id, 'hi', 'Faktor > batas', p.hi, 0.005)}
+          ${F(id, 'lo', 'Faktor ≤ batas', p.lo, 0.005)}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Overrides list table
+  const overridesList = Object.keys(S.prof.overrides || {});
+  const overridesRows = overridesList.map(key => {
+    const [d, s] = key.split('_');
+    return `
+      <tr>
+        <td><b>${fd(d)}</b></td>
+        <td style="text-align:center;"><span class="badge-plant">${s}</span></td>
+        <td class="act">
+          <button class="lnk" onclick="editOverrideKey('${d}', '${s}')">Buka & Edit</button>
+          <button class="lnk bad" onclick="deleteOverrideKey('${d}', '${s}')">Hapus</button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+
   return `
-    <div class="grid">
-      ${SI.map((id, i) => {
-        const p = S.prof[id];
-        return `
-          <div class="card" style="--c:var(--s${i})">
-            <div class="hd"><b>Silo ${id}</b></div>
-            <div class="pts">
-              ${RM.map((r, k) => F(id, 'w' + k, 'Bobot ' + r, p.w[k], 0.05)).join('')}
-            </div>
-            <div class="pts" style="margin-top:10px;">
-              ${F(id, 'n', 'Pembagi (n)', p.n, 1)}
-              ${F(id, 'th', 'Batas meter', p.th, 0.5)}
-              <span></span>
-              ${F(id, 'hi', 'Faktor > batas', p.hi, 0.005)}
-              ${F(id, 'lo', 'Faktor ≤ batas', p.lo, 0.005)}
-            </div>
-          </div>
-        `;
-      }).join('')}
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+      <div class="rg">
+        <button class="btn ${calMode === 'global' ? 'on' : ''}" onclick="calMode='global';render()">
+          🌐 Kalibrasi Global (Semua Tanggal)
+        </button>
+        <button class="btn ${calMode === 'specific' ? 'on' : ''}" onclick="calMode='specific';render()">
+          🎯 Kalibrasi Khusus (Tanggal & Shift Tertentu)
+        </button>
+      </div>
+      <span class="tag ok">🛡️ Mode Administrator</span>
     </div>
+
+    ${calMode === 'specific' ? `
+      <div class="card tool" style="border-color:var(--s1); background:rgba(180,83,9,0.04);">
+        <label>
+          Pilih Tanggal Khusus
+          <input type="date" id="cal-date" value="${calSpecDate}">
+        </label>
+        <label>
+          Pilih Shift Khusus
+          <select id="cal-shift">
+            ${SH.map(s => `<option ${s === calSpecShift ? 'selected' : ''}>Shift ${s}</option>`).join('')}
+          </select>
+        </label>
+        <span class="tag ${isOverrideActive ? 'warn' : 'ok'}">
+          ${isOverrideActive ? '🎯 Kalibrasi khusus aktif untuk shift ini' : '🌐 Mengikuti kalibrasi global (belum ada override)'}
+        </span>
+      </div>
+    ` : ''}
+
+    <div class="grid">${gridCards}</div>
 
     <div class="row" style="margin:14px 0">
-      <button class="btn pri" onclick="saveCal()">💾 Simpan Parameter Kalibrasi</button>
-      <button class="btn" onclick="twice(this, resetCal)">Kembalikan ke Default Plant 78</button>
+      ${calMode === 'global' ? `
+        <button class="btn pri" onclick="saveCalGlobal()">💾 Simpan Kalibrasi Global</button>
+        <button class="btn" onclick="twice(this, resetCalGlobal)">Kembalikan ke Default Plant 78</button>
+      ` : `
+        <button class="btn pri" onclick="saveCalSpecific()">💾 Simpan Override Khusus (${fd(calSpecDate)} Shift ${calSpecShift})</button>
+        ${isOverrideActive ? `
+          <button class="btn bad" onclick="deleteOverrideKey('${calSpecDate}', '${calSpecShift}')">🗑️ Hapus Override (Kembali ke Global)</button>
+        ` : ''}
+      `}
     </div>
 
+    ${overridesList.length > 0 ? `
+      <div class="card" style="margin-top:14px;">
+        <h3>Daftar Kalibrasi Khusus yang Aktif (${overridesList.length})</h3>
+        <div class="tw">
+          <table>
+            <thead>
+              <tr>
+                <th>Tanggal</th>
+                <th>Shift</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${overridesRows}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    ` : ''}
+
     <div class="card note">
-      <h2>Prinsip Perhitungan Kalibrasi Clinker PLANT 78</h2>
-      1. <b>Meter Real</b> = Σ(Bobot × Titik Ukur) ÷ n.<br>
-      2. <b>Meter Adjust</b> = Meter Real × Faktor (Faktor “> batas” bila meter real > batas, selain itu Faktor “≤ batas”).<br>
-      3. <b>Dibulatkan</b> ke kelipatan 0,25 m terdekat, lalu dicari pada master tabel kapasitas clinker (0 s.d. 45,75 m; kapasitas maksimum <b>${f0(CAP)} ton</b>).<br>
-      4. Nilai kalibrasi aktif diterapkan pada setiap input shift baru dan disimpan sebagai snapshot. Perubahan parameter kalibrasi tidak mengubah nilai riwayat lama.
+      <h2>Prinsip Kalibrasi Fleksibel Plant 78</h2>
+      1. <b>Kalibrasi Global</b> berlaku secara default untuk seluruh tanggal dan shift.<br>
+      2. <b>Kalibrasi Khusus</b> memungkinkan Admin menentukan bobot/faktor spesifik hanya pada tanggal dan shift tertentu (misal saat terjadi fluktuasi corong material atau perbaikan sensor).<br>
+      3. Perubahan parameter kalibrasi hanya diterapkan pada pencatatan baru dan tidak merusak data historis sebelumnya.
     </div>
   `;
 }
 
-function saveCal() {
-  const P = clone(S.prof);
+function saveCalGlobal() {
+  if (!adminState.isAdmin) return toast('Akses Admin diperlukan', 1);
+  const P = clone(S.prof.default || DEF);
   let ok = 1;
   document.querySelectorAll('[data-c]').forEach(e => {
     const v = parseFloat(e.value);
@@ -1176,25 +1880,192 @@ function saveCal() {
     else if (f[0] === 'w') p.w[+f.slice(1)] = v;
     else p[f] = v;
   });
-  if (!ok) return toast('Periksa isian: semua angka harus valid (pembagi ≥ 1)', 1);
-  S.prof = P;
+  if (!ok) return toast('Periksa isian angka kalibrasi', 1);
+  S.prof.default = P;
   save();
 
   if (typeof google !== 'undefined' && google.script && google.script.run) {
-    google.script.run.simpanKalibrasi(P);
+    google.script.run.simpanKalibrasi(P, adminState.pin);
   }
-
-  toast('Parameter kalibrasi berhasil disimpan');
+  toast('Kalibrasi global berhasil disimpan');
 }
 
-function resetCal() {
-  S.prof = clone(DEF);
+function resetCalGlobal() {
+  if (!adminState.isAdmin) return toast('Akses Admin diperlukan', 1);
+  S.prof.default = clone(DEF);
   save();
-  if (typeof google !== 'undefined' && google.script && google.script.run) {
-    google.script.run.resetKalibrasi();
-  }
-  toast('Kalibrasi dikembalikan ke standar Plant 78');
+  toast('Kalibrasi global di-reset ke standar Plant 78');
   render();
+}
+
+function saveCalSpecific() {
+  if (!adminState.isAdmin) return toast('Akses Admin diperlukan', 1);
+  const P = clone(DEF);
+  let ok = 1;
+  document.querySelectorAll('[data-c]').forEach(e => {
+    const v = parseFloat(e.value);
+    const p = P[e.dataset.c];
+    const f = e.dataset.f;
+    if (!isFinite(v) || (f === 'n' && v < 1) || v < 0) ok = 0;
+    else if (f[0] === 'w') p.w[+f.slice(1)] = v;
+    else p[f] = v;
+  });
+  if (!ok) return toast('Periksa isian angka kalibrasi', 1);
+  const key = calSpecDate + '_' + calSpecShift;
+  S.prof.overrides = S.prof.overrides || {};
+  S.prof.overrides[key] = P;
+  save();
+  toast(`Kalibrasi khusus untuk ${fd(calSpecDate)} Shift ${calSpecShift} tersimpan`);
+  render();
+}
+
+function deleteOverrideKey(d, s) {
+  if (!adminState.isAdmin) return toast('Akses Admin diperlukan', 1);
+  const key = d + '_' + s;
+  if (S.prof.overrides && S.prof.overrides[key]) {
+    delete S.prof.overrides[key];
+    save();
+    toast(`Override ${fd(d)} Shift ${s} dihapus`);
+    render();
+  }
+}
+
+function editOverrideKey(d, s) {
+  calMode = 'specific';
+  calSpecDate = d;
+  calSpecShift = s;
+  render();
+}
+
+// ADMIN AUTHENTICATION CONTROLLERS
+function openPinModal(targetPage = null) {
+  adminState.pendingTargetPage = targetPage;
+  $('#modal-pin').style.display = 'flex';
+  const inp = $('#input-admin-pin');
+  inp.value = '';
+  setTimeout(() => inp.focus(), 100);
+}
+
+function closePinModal() {
+  $('#modal-pin').style.display = 'none';
+  adminState.pendingTargetPage = null;
+}
+
+function verifyAdminPin() {
+  const entered = $('#input-admin-pin').value.trim();
+  if (entered === adminState.pin) {
+    adminState.isAdmin = true;
+    closePinModal();
+    toast('Akses Administrator Diberikan');
+    updateAdminStatusHeader();
+    if (adminState.pendingTargetPage) {
+      go(adminState.pendingTargetPage);
+    } else {
+      render();
+    }
+  } else {
+    toast('PIN Admin salah!', 1);
+  }
+}
+
+function logoutAdmin() {
+  adminState.isAdmin = false;
+  toast('Mode Admin Ditutup');
+  updateAdminStatusHeader();
+  if (pg === 'hist' || pg === 'cal') go('dash');
+  else render();
+}
+
+function openChangePinModal() {
+  $('#modal-change-pin').style.display = 'flex';
+  $('#old-pin').value = '';
+  $('#new-pin-1').value = '';
+  $('#new-pin-2').value = '';
+}
+
+function closeChangePinModal() {
+  $('#modal-change-pin').style.display = 'none';
+}
+
+function saveNewPin() {
+  const oldP = $('#old-pin').value.trim();
+  const np1 = $('#new-pin-1').value.trim();
+  const np2 = $('#new-pin-2').value.trim();
+
+  if (oldP !== adminState.pin) return toast('PIN lama tidak cocok!', 1);
+  if (np1.length < 4) return toast('PIN baru minimal 4 angka!', 1);
+  if (np1 !== np2) return toast('Konfirmasi PIN baru tidak sama!', 1);
+
+  adminState.pin = np1;
+  localStorage.setItem('silo.admin_pin', np1);
+  closeChangePinModal();
+  toast('PIN Admin berhasil diperbarui');
+}
+
+function updateAdminStatusHeader() {
+  const wrap = $('#admin-status-wrap');
+  const navHist = $('#nav-hist');
+  const navCal = $('#nav-cal');
+
+  if (adminState.isAdmin) {
+    wrap.innerHTML = `
+      <div style="display:flex; align-items:center; gap:5px;">
+        <span class="tag ok" style="font-size:11px;">🛡️ Admin</span>
+        <button class="btn" style="padding:4px 8px; font-size:11px;" onclick="logoutAdmin()">Kunci</button>
+        <button class="btn" style="padding:4px 8px; font-size:11px;" onclick="openChangePinModal()">PIN</button>
+      </div>
+    `;
+    navHist.innerHTML = 'Riwayat';
+    navCal.innerHTML = 'Kalibrasi';
+  } else {
+    wrap.innerHTML = `
+      <button class="btn" style="padding:4px 9px; font-size:12px;" onclick="openPinModal()">
+        🔒 Admin
+      </button>
+    `;
+    navHist.innerHTML = 'Riwayat 🔒';
+    navCal.innerHTML = 'Kalibrasi 🔒';
+  }
+}
+
+// REPORT FAULTY INPUT CONTROLLERS
+function openReportModal() {
+  $('#modal-report').style.display = 'flex';
+  $('#rep-nik').value = IN.nik || '-';
+  $('#rep-shift').value = `${fd(IN.d)} · Shift ${IN.s}`;
+  $('#rep-detail').value = '';
+  $('#rep-detail').focus();
+}
+
+function closeReportModal() {
+  $('#modal-report').style.display = 'none';
+}
+
+function getFormattedReport() {
+  const nik = $('#rep-nik').value;
+  const shift = $('#rep-shift').value;
+  const detail = $('#rep-detail').value.trim() || 'Perlu koreksi titik ukur.';
+  return `*LAPORAN REVISI UKUR SILO PLANT 78*\n` +
+         `-------------------------------------\n` +
+         `NIK Operator: ${nik}\n` +
+         `Tanggal & Shift: ${shift}\n` +
+         `Rincian Koreksi: ${detail}\n\n` +
+         `Mohon Administrator untuk membuka/merevisi catatan tersebut. Terima kasih.`;
+}
+
+function copyReportText() {
+  const text = getFormattedReport();
+  navigator.clipboard.writeText(text).then(() => {
+    toast('Teks laporan berhasil disalin ke clipboard');
+  }).catch(() => {
+    toast('Gagal menyalin, silakan salin manual', 1);
+  });
+}
+
+function sendReportWA() {
+  const text = encodeURIComponent(getFormattedReport());
+  window.open(`https://wa.me/?text=${text}`, '_blank');
+  closeReportModal();
 }
 
 // Router & Handlers
@@ -1203,10 +2074,16 @@ function render() {
   document.querySelectorAll('#nav button[data-p]').forEach(b => {
     b.classList.toggle('on', b.dataset.p === pg);
   });
+  updateAdminStatusHeader();
   if (pg === 'input') SI.forEach(upd);
 }
 
 function go(p) {
+  // Guard Riwayat and Kalibrasi with PIN
+  if ((p === 'hist' || p === 'cal') && !adminState.isAdmin) {
+    openPinModal(p);
+    return;
+  }
   pg = p;
   if (p === 'input') loadIN();
   render();
@@ -1218,25 +2095,29 @@ $('#nav').onclick = e => {
   if (b) go(b.dataset.p);
 };
 
+// Theme Toggle (Default is LIGHT)
 $('#tb').onclick = () => {
-  const cur = document.documentElement.getAttribute('data-theme');
+  const cur = document.documentElement.getAttribute('data-theme') || 'light';
   const next = cur === 'dark' ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', next);
   try { localStorage.setItem('silo.theme', next); } catch (e) {}
 };
 
-$('#sp-replay').onclick = () => {
-  runSplashAnimation();
-};
+$('#sp-replay').onclick = () => { runSplashAnimation(); };
 
+// Ensure DEFAULT is LIGHT
 try {
-  const t = localStorage.getItem('silo.theme');
-  if (t) document.documentElement.setAttribute('data-theme', t);
-} catch (e) {}
+  const t = localStorage.getItem('silo.theme') || 'light';
+  document.documentElement.setAttribute('data-theme', t);
+} catch (e) {
+  document.documentElement.setAttribute('data-theme', 'light');
+}
 
 $('#app').addEventListener('input', e => {
   const t = e.target;
-  if (t.dataset.s) {
+  if (t.id === 'fn') {
+    IN.nik = t.value;
+  } else if (t.dataset.s) {
     const a = IN.x[t.dataset.s] = IN.x[t.dataset.s] || [null, null, null, null, null, null];
     a[+t.dataset.k] = t.value === '' ? null : +t.value;
     upd(t.dataset.s);
@@ -1245,10 +2126,24 @@ $('#app').addEventListener('input', e => {
 
 $('#app').addEventListener('change', e => {
   const t = e.target;
-  if (t.id === 'fd' || t.id === 'fs') {
-    if (t.id === 'fd' && t.value) IN.d = t.value;
-    if (t.id === 'fs') IN.s = t.value;
+  if (t.id === 'fd') {
+    if (t.value) IN.d = t.value;
     loadIN();
+    render();
+  } else if (t.id === 'fs') {
+    // Extract single letter A, B, or C from select text
+    const sMatch = t.value.match(/Shift\s+([ABC])/);
+    if (sMatch) IN.s = sMatch[1];
+    else IN.s = t.value.charAt(0);
+    loadIN();
+    render();
+  } else if (t.id === 'cal-date') {
+    calSpecDate = t.value;
+    render();
+  } else if (t.id === 'cal-shift') {
+    const sMatch = t.value.match(/Shift\s+([ABC])/);
+    if (sMatch) calSpecShift = sMatch[1];
+    else calSpecShift = t.value.charAt(0);
     render();
   } else if (t.id === 'ha' || t.id === 'hb' || t.id === 'hq') {
     if (t.id === 'ha') HF.a = t.value;
@@ -1268,6 +2163,7 @@ $('#app').addEventListener('click', e => {
     IN.s = parts[1];
     go('input');
   } else if (b.dataset.x) {
+    if (!adminState.isAdmin) return toast('Hanya Admin yang dapat menghapus data', 1);
     twice(b, () => {
       const parts = b.dataset.x.split('|');
       S.recs = S.recs.filter(r => !(r.d === parts[0] && r.s === parts[1]));
@@ -1281,15 +2177,11 @@ $('#app').addEventListener('click', e => {
 // PWA Service Worker Registration
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').then(reg => {
-      console.log('PWA Service Worker registered successfully, scope:', reg.scope);
-    }).catch(err => {
-      console.warn('PWA Service Worker registration failed:', err);
-    });
+    navigator.serviceWorker.register('./sw.js').catch(err => console.warn('SW err:', err));
   });
 }
 
-// Initial Boot & Splash Animation
+// Initial Boot
 load();
 loadIN();
 render();

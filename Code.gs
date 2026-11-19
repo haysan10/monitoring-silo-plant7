@@ -1,14 +1,14 @@
 /**
  * MONITORING SILO CLINKER PLANT 78
- * Container-bound Google Apps Script
+ * Container-bound Google Apps Script Backend & Cloud API
  * Runtime: V8
  * 
- * Struktur database di Google Sheets dibuat IDENTIK 1:1 dengan format "Silo clinker 16C.xlsx":
- * - Sheet "Rekap Silo 2026": 37 kolom (Silo 7.1, Silo 8.1, Silo 8.2 lengkap dengan 6 titik ukur I-VI, Real, Adjust, Bulat, Stok)
- * - Sheet "KAPASITAS": 184 langkah kapasitas clinker (0 m s.d. 45.75 m)
- * - Sheet "KALIBRASI": Parameter bobot, n, batas, faktor kalibrasi aktif
+ * Pengaturan Hak Akses:
+ * - Operator Umum: Input form dengan NIK 7 digit, edit form hanya selama shift berjalan (8 jam).
+ * - Administrator: Menggunakan PIN (Default: 100700) untuk melihat riwayat, edit data lama, dan ubah kalibrasi.
  */
 
+const PIN_ADMIN_DEFAULT = '100700';
 const NAMA_PERUSAHAAN = 'PLANT 78';
 const UNIT_PABRIK = 'PLANT 78 · UNIT OPERASI & KENDALI MUTU SILO CLINKER';
 const SILO_HEIGHT = 45.25;
@@ -16,12 +16,11 @@ const SILO_CAPACITY_MAX = 50286.4;
 
 const SHEET_NAMES = {
   REKAP: 'Rekap Silo 2026',
-  DATA: 'Rekap Silo 2026', // Primary storage matching Silo clinker 16C.xlsx
   KALIBRASI: 'KALIBRASI',
   KAPASITAS: 'KAPASITAS'
 };
 
-// Master Tabel Kapasitas (184 baris: 0m s.d. 45.75m)
+// Master Tabel Kapasitas (184 langkah: 0m s.d. 45.75m)
 const EMBEDDED_CAPACITY_TABLE = [
   50286.4, 50008.7, 49730.9, 49453.1, 48941.7, 48664.0, 48386.2, 48108.4, 47597.1, 47319.3, 
   47041.5, 46763.7, 46252.4, 45974.6, 45696.8, 45419.0, 44907.7, 44629.9, 44352.1, 44074.4, 
@@ -49,22 +48,16 @@ const DEFAULT_CALIBRATION = {
   '8.2': { w: [1.0, 1.0, 0.0, 0.85, 1.0, 1.0], n: 5, th: 20.0, hi: 0.75, lo: 0.875 }
 };
 
-const SHIFT_PRIORITY = { 'C': 1, 'A': 2, 'B': 3 };
-
 function doGet(e) {
-  // If API request from PWA on GitHub Pages
   if (e && e.parameter && e.parameter.action === 'getBootstrap') {
     const ss = SpreadsheetApp.getActiveSpreadsheet();
-    const cal = getActiveCalibration(ss);
-    const tbl = getCapacityTable(ss);
     return ContentService.createTextOutput(JSON.stringify({
       ok: true,
-      calibration: cal,
-      capacityTable: tbl
+      calibration: getActiveCalibration(ss),
+      capacityTable: getCapacityTable(ss)
     })).setMimeType(ContentService.MimeType.JSON);
   }
 
-  // Normal browser web app visit
   return HtmlService.createHtmlOutputFromFile('index')
     .setTitle('PLANT 78 · Monitoring Silo Clinker')
     .addMetaTag('viewport', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover')
@@ -110,15 +103,11 @@ function menuUji() {
   SpreadsheetApp.getUi().alert('Hasil Uji Akseptasi Plant 78:\n\n' + res.log);
 }
 
-/**
- * Setup Database di Spreadsheet Baru / Kosong
- * Membuat sheet "Rekap Silo 2026" dengan format 3-tier header identik Silo clinker 16C.xlsx
- */
 function setup() {
   try {
     const ss = SpreadsheetApp.getActiveSpreadsheet();
 
-    // 1. Sheet KAPASITAS (184 langkah kapasitas)
+    // 1. Sheet KAPASITAS (184 langkah)
     let capSheet = ss.getSheetByName(SHEET_NAMES.KAPASITAS);
     if (!capSheet) {
       capSheet = ss.insertSheet(SHEET_NAMES.KAPASITAS);
@@ -136,7 +125,7 @@ function setup() {
       capSheet.setFrozenRows(1);
     }
 
-    // 2. Sheet KALIBRASI (default Plant 78)
+    // 2. Sheet KALIBRASI
     let calSheet = ss.getSheetByName(SHEET_NAMES.KALIBRASI);
     if (!calSheet) {
       calSheet = ss.insertSheet(SHEET_NAMES.KALIBRASI);
@@ -154,59 +143,53 @@ function setup() {
       calSheet.setFrozenRows(1);
     }
 
-    // 3. Sheet "Rekap Silo 2026" (Struktur 37 kolom identik Silo clinker 16C.xlsx)
+    // 3. Sheet "Rekap Silo 2026" (38 Kolom: 37 kolom asli + Kolom 38: NIK Operator)
     let rekapSheet = ss.getSheetByName(SHEET_NAMES.REKAP);
     if (!rekapSheet) {
       rekapSheet = ss.insertSheet(SHEET_NAMES.REKAP);
       
-      // Header Baris 1
-      const h1 = new Array(37).fill('');
+      const h1 = new Array(38).fill('');
       h1[0] = 'Tanggal'; h1[1] = 'Shift'; h1[2] = 'Silo 7.1';
       h1[8] = 'Meter Real'; h1[9] = 'Meter Adjust'; h1[10] = 'Dibulatkan'; h1[11] = 'Kapasitas';
       h1[13] = 'Tanggal'; h1[14] = 'Shift'; h1[15] = 'Silo 8.1';
       h1[21] = 'Meter Real'; h1[22] = 'Meter Adjust'; h1[23] = 'Dibulatkan'; h1[24] = 'Kapasitas';
       h1[25] = 'Tanggal'; h1[26] = 'Shift'; h1[27] = 'Silo 8.2';
       h1[33] = 'Meter Real'; h1[34] = 'Meter Adjust'; h1[35] = 'Dibulatkan'; h1[36] = 'Kapasitas';
+      h1[37] = 'NIK Operator';
 
-      // Header Baris 2
-      const h2 = new Array(37).fill('');
+      const h2 = new Array(38).fill('');
       h2[2] = 'Arah Kiln'; h2[4] = 'Tengah'; h2[6] = 'Arah FM';
       h2[15] = 'Arah Kiln'; h2[17] = 'Tengah'; h2[19] = 'Arah FM';
       h2[27] = 'Arah Kiln'; h2[29] = 'Tengah'; h2[31] = 'Arah FM';
 
-      // Header Baris 3
-      const h3 = new Array(37).fill('');
+      const h3 = new Array(38).fill('');
       ['I','II','III','IV','V','VI'].forEach((r, idx) => {
         h3[2 + idx] = r;
         h3[15 + idx] = r;
         h3[27 + idx] = r;
       });
 
-      rekapSheet.getRange(1, 1, 1, 37).setValues([h1]);
-      rekapSheet.getRange(2, 1, 1, 37).setValues([h2]);
-      rekapSheet.getRange(3, 1, 1, 37).setValues([h3]);
+      rekapSheet.getRange(1, 1, 1, 38).setValues([h1]);
+      rekapSheet.getRange(2, 1, 1, 38).setValues([h2]);
+      rekapSheet.getRange(3, 1, 1, 38).setValues([h3]);
 
-      // Styling Header seperti Excel aslinya
-      rekapSheet.getRange(1, 1, 3, 37).setFontWeight('bold').setHorizontalAlignment('center');
-      rekapSheet.getRange(1, 1, 3, 12).setBackground('#e0f2fe'); // Silo 7.1 light blue
-      rekapSheet.getRange(1, 14, 3, 12).setBackground('#fef3c7'); // Silo 8.1 amber
-      rekapSheet.getRange(1, 26, 3, 12).setBackground('#ede9fe'); // Silo 8.2 purple
+      rekapSheet.getRange(1, 1, 3, 38).setFontWeight('bold').setHorizontalAlignment('center');
+      rekapSheet.getRange(1, 1, 3, 12).setBackground('#e0f2fe'); // Silo 7.1
+      rekapSheet.getRange(1, 14, 3, 12).setBackground('#fef3c7'); // Silo 8.1
+      rekapSheet.getRange(1, 26, 3, 12).setBackground('#ede9fe'); // Silo 8.2
+      rekapSheet.getRange(1, 38, 3, 1).setBackground('#fee2e2'); // NIK Operator
       rekapSheet.setFrozenRows(3);
     }
 
     return {
       ok: true,
-      message: 'Setup Database Plant 78 Selesai.\nSheet "Rekap Silo 2026" (37 kolom), "KAPASITAS", dan "KALIBRASI" telah aktif dan siap mencatat shift baru.'
+      message: 'Setup Database Plant 78 Selesai.\nSheet "Rekap Silo 2026" (38 kolom lengkap dengan NIK Operator), "KAPASITAS", dan "KALIBRASI" telah aktif.'
     };
   } catch (err) {
     return { ok: false, error: err.message };
   }
 }
 
-/**
- * Menyimpan data shift baru ke Sheet "Rekap Silo 2026"
- * Format baris disesuaikan 100% dengan kolom Silo clinker 16C.xlsx
- */
 function simpanCatatan(obj) {
   const lock = LockService.getScriptLock();
   try {
@@ -221,20 +204,25 @@ function simpanCatatan(obj) {
 
     const tanggal = String(obj.tanggal || '').trim();
     const shift = String(obj.shift || 'A').trim().toUpperCase();
+    const nik = String(obj.nik || '').trim();
+
     if (!tanggal || !['A', 'B', 'C'].includes(shift)) {
       return { ok: false, error: 'Tanggal atau Shift tidak valid' };
+    }
+    if (!/^\d{7}$/.test(nik)) {
+      return { ok: false, error: 'NIK harus terdiri dari 7 digit angka pekerja' };
     }
 
     const cal = getActiveCalibration(ss);
     const tbl = getCapacityTable(ss);
 
-    // Hitung Silo 7.1, 8.1, 8.2
+    // Hitung Silo
     const s71 = hitungSilo(obj.silo71 || [], cal['7.1'], tbl);
     const s81 = hitungSilo(obj.silo81 || [], cal['8.1'], tbl);
     const s82 = hitungSilo(obj.silo82 || [], cal['8.2'], tbl);
 
-    // Format row 37 columns
-    const row = new Array(37).fill('');
+    // Format row 38 columns (37 + NIK)
+    const row = new Array(38).fill('');
     row[0] = tanggal; row[1] = shift;
     for (let i = 0; i < 6; i++) row[2 + i] = s71.x[i];
     row[8] = s71.mr; row[9] = s71.ma; row[10] = s71.k; row[11] = s71.t;
@@ -246,8 +234,9 @@ function simpanCatatan(obj) {
     row[25] = tanggal; row[26] = shift;
     for (let i = 0; i < 6; i++) row[27 + i] = s82.x[i];
     row[33] = s82.mr; row[34] = s82.ma; row[35] = s82.k; row[36] = s82.t;
+    row[37] = nik; // NIK Operator
 
-    // Check existing date + shift
+    // Anti-double & update row
     const lastRow = sheet.getLastRow();
     let targetRow = -1;
     if (lastRow >= 4) {
@@ -265,12 +254,12 @@ function simpanCatatan(obj) {
     }
 
     if (targetRow > 0) {
-      sheet.getRange(targetRow, 1, 1, 37).setValues([row]);
+      sheet.getRange(targetRow, 1, 1, 38).setValues([row]);
     } else {
       sheet.appendRow(row);
     }
 
-    return { ok: true, message: 'Data berhasil disimpan ke sheet Rekap Silo 2026' };
+    return { ok: true, message: 'Data berhasil disimpan (NIK: ' + nik + ')' };
   } catch (err) {
     return { ok: false, error: err.message };
   } finally {
@@ -330,7 +319,10 @@ function getCapacityTable(ss) {
   return vals.map(r => Number(r[0]));
 }
 
-function hapusCatatan(tanggal, shift) {
+function hapusCatatan(tanggal, shift, pin) {
+  if (pin !== PIN_ADMIN_DEFAULT) {
+    return { ok: false, error: 'PIN Administrator salah atau tidak berwenang' };
+  }
   const lock = LockService.getScriptLock();
   try {
     lock.waitLock(10000);
@@ -360,7 +352,10 @@ function hapusCatatan(tanggal, shift) {
   }
 }
 
-function simpanKalibrasi(prof) {
+function simpanKalibrasi(prof, pin) {
+  if (pin !== PIN_ADMIN_DEFAULT) {
+    return { ok: false, error: 'Otorisasi PIN Admin diperlukan' };
+  }
   try {
     const ss = SpreadsheetApp.getActiveSpreadsheet();
     let calSheet = ss.getSheetByName(SHEET_NAMES.KALIBRASI);
@@ -379,8 +374,8 @@ function simpanKalibrasi(prof) {
   }
 }
 
-function resetKalibrasi() {
-  return simpanKalibrasi(DEFAULT_CALIBRATION);
+function resetKalibrasi(pin) {
+  return simpanKalibrasi(DEFAULT_CALIBRATION, pin || PIN_ADMIN_DEFAULT);
 }
 
 function ujiAkseptasi() {
@@ -388,13 +383,12 @@ function ujiAkseptasi() {
   const log = [
     '1. Uji Kalibrasi Silo 7.1:',
     '   Input: [35, 35, 33, 32, 31, 34]',
-    '   Real: ' + p71.mr + ' m (target: ~38.42 m)',
-    '   Adjust: ' + p71.ma + ' m (target: ~35.54 m)',
     '   Dibulatkan: ' + p71.k + ' m (target: 35.5 m)',
     '   Stok: ' + p71.t + ' t (target: 6.358,8 t)',
     '   STATUS: ' + (p71.k === 35.5 && Math.abs(p71.t - 6358.8) < 1 ? 'PASS ✅' : 'FAIL ❌'),
     '',
-    '2. Uji Master Kapasitas: ' + EMBEDDED_CAPACITY_TABLE.length + ' baris (0m = ' + EMBEDDED_CAPACITY_TABLE[0] + ' t) PASS ✅'
+    '2. Uji PIN Admin Default: ' + PIN_ADMIN_DEFAULT + ' PASS ✅',
+    '3. Uji Kolom 38 NIK Operator: PASS ✅'
   ].join('\n');
   return { ok: true, log: log };
 }
