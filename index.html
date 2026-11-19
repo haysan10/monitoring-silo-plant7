@@ -9,6 +9,10 @@
 <meta name="apple-mobile-web-app-title" content="Silo Plant 78">
 <meta name="description" content="Sistem Monitoring Stok Clinker Silo 7.1, 8.1, 8.2 Plant 78">
 
+<!-- Preload Official Logos -->
+<link rel="preload" as="image" href="logo-dark.png">
+<link rel="preload" as="image" href="logo.png">
+
 <!-- PWA Links -->
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -1029,13 +1033,15 @@ function runSplashAnimation() {
   const splash = $('#splash-screen');
   if (!splash) return;
   splash.style.display = 'flex';
-  splash.style.opacity = '1';
   splash.style.pointerEvents = 'auto';
 
   if (typeof gsap === 'undefined') {
     setTimeout(() => { splash.style.display = 'none'; }, 800);
     return;
   }
+
+  // Reset any leftover transform/filter from previous run
+  gsap.set(splash, { opacity: 1, scale: 1, filter: 'none', clearProps: 'transform,filter' });
 
   const tl = gsap.timeline({
     onComplete: () => {
@@ -1057,7 +1063,7 @@ function runSplashAnimation() {
 
   tl.set('#sp-progress', { width: '0%' })
     .fromTo('#sp-logo', { scale: 0.85, opacity: 0, y: 15 }, { scale: 1, opacity: 1, y: 0, duration: 0.6, ease: 'back.out(1.6)' })
-    .to('#sp-progress', { width: '100%', duration: 0.8, ease: 'power2.inOut' }, '-=0.2');
+    .to('#sp-progress', { width: '100%', duration: 0.85, ease: 'power2.inOut' }, '-=0.2');
 }
 
 function unpackSeed() {
